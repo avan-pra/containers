@@ -34,21 +34,18 @@ namespace ft
 			size_type		_size_alloc;
 
 		public:
-			explicit vector (const allocator_type& alloc = allocator_type()) : _alloc(alloc)
+			explicit vector (const allocator_type& alloc = allocator_type()) : _alloc(alloc), _ptr(NULL), _size(0), _size_alloc(0) { }
+			explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : _alloc(alloc), _ptr(NULL), _size(0), _size_alloc(0)
 			{
-				_ptr = NULL;
-				_size = 0;
-				_size_alloc = 0;
-			}
-			explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
-			{
-				_ptr = NULL;
-				_size = 0;
-				_size_alloc = 0;
+				for (size_type i = 0; i < n; ++i)
+					push_back(val);
 			}
 			//template <class InputIterator>
 			//vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
-			//vector (const vector& x);
+			vector (const vector& x) : _alloc(x._alloc), _ptr(NULL), _size(0), _size_alloc(0)
+			{
+
+			}
 
 			~vector()
 			{
@@ -93,12 +90,22 @@ namespace ft
 
 			void reserve (size_type n)
 			{
-			
+				pointer new_hold;
+
+				if (n <= _size_alloc)
+					;//prblm
+				new_hold = _alloc.allocate(n);
+				for (size_t i = 0; i < _size; ++i)
+					_alloc.construct(&new_hold[i], _ptr[i]);
+				_alloc.deallocate(_ptr, _size);
+				_alloc.destroy(_ptr);
+				_size_alloc = n;
+				_ptr = new_hold;
 			}
 
     		reference operator[] (size_type n)
 			{
-
+				return _ptr[n];
 			}
 			
 			const_reference operator[] (size_type n) const
@@ -145,7 +152,10 @@ namespace ft
 
 			void push_back (const value_type& val)
 			{
-
+				if (_size == _size_alloc)
+					reserve((_size_alloc == 0 ? 1 : _size_alloc) * 2);
+				_alloc.construct(&_ptr[_size], val);
+				++_size;
 			}
 
 			void pop_back()
@@ -159,15 +169,15 @@ namespace ft
 			// template <class InputIterator>
     		// void insert (iterator position, InputIterator first, InputIterator last);
 	
-			iterator erase (iterator position)
-			{
+			// iterator erase (iterator position)
+			// {
 
-			}
+			// }
 
-			iterator erase (iterator first, iterator last)
-			{
+			// iterator erase (iterator first, iterator last)
+			// {
 
-			}
+			// }
 
 			void swap (vector& x)
 			{
