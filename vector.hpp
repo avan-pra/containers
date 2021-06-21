@@ -7,6 +7,8 @@
 # include <climits>
 # include <sstream>
 # include <iostream>
+# include "utils.hpp"
+# include "iterator.hpp"
 
 namespace ft
 {
@@ -44,12 +46,14 @@ namespace ft
 			//vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
 			vector (const vector& x) : _alloc(x._alloc), _ptr(NULL), _size(0), _size_alloc(0)
 			{
-
+				for (size_type i = 0; i < x._size; ++i)
+					push_back(x[i]);
 			}
 
 			~vector()
 			{
-				
+				clear();
+				_alloc.deallocate(_ptr, _size_alloc);
 			}
 
 			//vector& operator= (const vector& x);
@@ -75,7 +79,10 @@ namespace ft
 
 			void resize (size_type n, value_type val = value_type())
 			{
-
+				while (_size < n)
+					push_back(val);
+				while (_size > n)
+					pop_back();
 			}
 
 			size_type capacity() const
@@ -95,10 +102,12 @@ namespace ft
 				if (n <= _size_alloc)
 					;//prblm
 				new_hold = _alloc.allocate(n);
-				for (size_t i = 0; i < _size; ++i)
+				for (size_type i = 0; i < _size; ++i)
+				{
 					_alloc.construct(&new_hold[i], _ptr[i]);
-				_alloc.deallocate(_ptr, _size);
-				_alloc.destroy(_ptr);
+					_alloc.destroy(&_ptr[i]);
+				}
+				_alloc.deallocate(_ptr, _size_alloc);
 				_size_alloc = n;
 				_ptr = new_hold;
 			}
@@ -110,57 +119,68 @@ namespace ft
 			
 			const_reference operator[] (size_type n) const
 			{
-
+				return _ptr[n];
 			}
 			
 			reference at (size_type n)
 			{
-
+				if (n < 0 || n >= _size_alloc)
+					throw std::out_of_range(ft_to_string(n));
+				return _ptr[n];
 			}
 			
 			const_reference at (size_type n) const
 			{
-
+				if (n < 0 || n >= _size_alloc)
+					throw std::out_of_range(ft_to_string(n));
+				return _ptr[n];
 			}
 
 			reference front()
 			{
-
+				return _ptr[0];
 			}
 			
 			const_reference front() const
 			{
-
+				return _ptr[0];
 			}
 
 			reference back()
 			{
-
+				return _ptr[_size - 1];
 			}
 
 			const_reference back() const
 			{
-
+				return _ptr[_size - 1];
 			}
 
 // template <class InputIterator>
 // void assign (InputIterator first, InputIterator last);
 			void assign (size_type n, const value_type& val)
 			{
+				value_type L = val;
 
+				clear();
+				for (size_type i = 0; i < n; ++i)
+					push_back(L);
 			}
 
 			void push_back (const value_type& val)
 			{
+				value_type L = val;
+
 				if (_size == _size_alloc)
 					reserve((_size_alloc == 0 ? 1 : _size_alloc) * 2);
-				_alloc.construct(&_ptr[_size], val);
+				_alloc.construct(&_ptr[_size], L);
 				++_size;
 			}
 
 			void pop_back()
 			{
-
+				_alloc.destroy(_ptr[_size - 1]);
+				--_size;
 			}
 
 			// iterator insert (iterator position, const value_type& val);
@@ -181,21 +201,21 @@ namespace ft
 
 			void swap (vector& x)
 			{
-
+				::swap(_ptr, x._ptr);
+				::swap(_size, x._size);
+				::swap(_size_alloc, x._size_alloc);
 			}
 
 			void clear()
 			{
-
+				for (size_type i = 0; i < _size; ++i)
+					_alloc.destroy(&_ptr[i]);
 			}
 
 			allocator_type get_allocator() const
 			{
 				return _alloc;
 			}
-
-
-
 	};
 	template <class T, class Alloc>
 	bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
