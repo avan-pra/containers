@@ -9,6 +9,7 @@
 # include <iostream>
 # include "utils.hpp"
 # include "iterator.hpp"
+# include "reverse_iterator.hpp"
 
 namespace ft
 {
@@ -24,8 +25,8 @@ namespace ft
 			typedef const T								*const_pointer;
 			typedef iterator<value_type>				iterator;
 			typedef const iterator						const_iterator;
-			//typedef ReverseIterator<value_type>			reverse_iterator;
-			//typedef const ReverseIterator<value_type>	const_reverse_iterator;
+			typedef reverse_iterator<value_type>		reverse_iterator;
+			typedef const reverse_iterator				const_reverse_iterator;
 			typedef size_t								size_type;
 			typedef std::ptrdiff_t						difference_type;
 

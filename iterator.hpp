@@ -6,7 +6,7 @@
 namespace ft
 {
 	template <class T, class Distance = ptrdiff_t,
-		  class Pointer = T*, class Reference = T&>
+		  class Pointer = T*, class Reference = T&, class Category = std::random_access_iterator_tag>
 	struct iterator {
 		public:
 			typedef T			value_type;
@@ -57,6 +57,8 @@ namespace ft
 			iterator	operator+=(const size_type &n) { _ptr += n; return *this; }
 			iterator	operator-=(const size_type &n) { _ptr -= n; return *this; }
 			reference	operator[](const size_type &n) { return *(_ptr + n); }
+			
+			pointer		get_pointer() const { return _ptr; }
 	};
 
 }
