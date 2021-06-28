@@ -22,8 +22,8 @@ namespace ft
 			typedef const T								&const_reference;
 			typedef T									*pointer;
 			typedef const T								*const_pointer;
-			//typedef Iterator<value_type>				iterator;
-			//typedef const Iterator<value_type>			const_iterator;
+			typedef iterator<value_type>				iterator;
+			typedef const iterator						const_iterator;
 			//typedef ReverseIterator<value_type>			reverse_iterator;
 			//typedef const ReverseIterator<value_type>	const_reverse_iterator;
 			typedef size_t								size_type;
@@ -58,9 +58,9 @@ namespace ft
 
 			//vector& operator= (const vector& x);
 
-//   iterator begin();
-// const_iterator begin() const;
-//   iterator end();
+			iterator begin() { return iterator(_ptr); }
+			const_iterator begin() const { return iterator(_ptr); }
+			iterator end()	{ return iterator(_ptr + _size); }
 // const_iterator end() const;
 //   reverse_iterator rbegin();
 // const_reverse_iterator rbegin() const;
