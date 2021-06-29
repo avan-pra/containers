@@ -119,7 +119,7 @@ namespace ft
 				_ptr = new_hold;
 			}
 
-    		reference operator[] (size_type n)
+			reference operator[] (size_type n)
 			{
 				return _ptr[n];
 			}
@@ -132,14 +132,14 @@ namespace ft
 			reference at(size_type n)
 			{
 				if (n < 0 || n >= _size_alloc)
-					throw std::out_of_range(ft_to_string(n));
+					throw std::out_of_range(utils::ft_to_string(n));
 				return _ptr[n];
 			}
 			
 			const_reference at(size_type n) const
 			{
 				if (n < 0 || n >= _size_alloc)
-					throw std::out_of_range(ft_to_string(n));
+					throw std::out_of_range(utils::ft_to_string(n));
 				return _ptr[n];
 			}
 
@@ -169,6 +169,7 @@ namespace ft
 				for (; first != last; ++first)
 					push_back(*first);
 			}
+
 			void assign (size_type n, const value_type& val)
 			{
 				value_type L = val;
@@ -195,37 +196,55 @@ namespace ft
 			}
 
 			iterator insert(iterator position, const value_type& val)
-    		{
+			{
 				value_type L = val;
 
 				if (_size == _size_alloc)
 					reserve((_size_alloc == 0 ? 1 : _size_alloc) * 2);
 				for (iterator it = end(); it != position; --it)
-					::swap(*it, *(it - 1));
+					utils::swap(*it, *(it - 1));
 				_alloc.construct(position.operator->(), L);
 				++_size;
 				return position;
 			}
-			// void insert (iterator position, size_type n, const value_type& val);
 
-			// template <class InputIterator>
-    		// void insert (iterator position, InputIterator first, InputIterator last);
-	
-			// iterator erase (iterator position)
-			// {
+			void insert (iterator position, size_type n, const value_type& val)
+			{
+				value_type L = val;
 
-			// }
+				for (size_type i = 0; i < n; ++i)
+					position = insert(position, L);
+			}
 
-			// iterator erase (iterator first, iterator last)
-			// {
+			template <class InputIterator>
+			void insert (iterator position, InputIterator first, InputIterator last)
+			{
+				for (; first != last; ++first)
+					position = insert(position, *first);
+			}
 
-			// }
+			iterator erase(iterator position)
+			{
+				iterator it = position;				
+
+				_alloc.destroy(position.operator->());
+				for (; position != end(); ++position)
+					utils::swap(*position, *(position + 1));
+				--_size;
+				return it;
+			}
+
+			iterator erase (iterator first, iterator last)
+			{
+				for (; first != last; ++first)
+					first = erase(first);
+			}
 
 			void swap(vector& x)
 			{
-				::swap(_ptr, x._ptr);
-				::swap(_size, x._size);
-				::swap(_size_alloc, x._size_alloc);
+				utils::swap(_ptr, x._ptr);
+				utils::swap(_size, x._size);
+				utils::swap(_size_alloc, x._size_alloc);
 			}
 
 			void clear()
@@ -239,45 +258,78 @@ namespace ft
 				return _alloc;
 			}
 	};
-	template <class T, class Alloc>
-	bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-	{
 
+	template <class T, class Alloc>
+	bool operator==(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		if (lhs.size() != rhs.size())
+			return false;
+		for (size_t i = 0; i < lhs.size(); ++i)
+		{
+			if (lhs[i] != rhs[i])
+				return false;
+		}
+		return true;
 	}
 
 	template <class T, class Alloc>
-	bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	bool operator!=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 	{
-
-	}
-	template <class T, class Alloc>
-	bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-	{
-
-	}
-	
-	template <class T, class Alloc>
-	bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-	{
-
+		if (lhs == rhs)
+			return false;
+		return true;
 	}
 
 	template <class T, class Alloc>
-	bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	bool operator<(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 	{
-
+		if (lhs.size() < rhs.size())
+			return true;
+		if (lhs.size() > rhs.size())
+			return false;
+		for (size_t i = 0; i < lhs.size(); ++i)
+		{
+			if (lhs[i] > rhs[i])
+				return false;
+		}
+		return true;
 	}
-	
-	template <class T, class Alloc>
-	bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-	{
 
+	template <class T, class Alloc>
+	bool operator<=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		if (lhs.size() < rhs.size())
+			return true;
+		if (lhs.size() > rhs.size())
+			return false;
+		for (size_t i = 0; i < lhs.size(); ++i)
+		{
+			if (lhs[i] >= rhs[i])
+				return false;
+		}
+		return true;
 	}
 
 	template <class T, class Alloc>
-	void swap (vector<T,Alloc>& x, vector<T,Alloc>& y)
+	bool operator>(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 	{
+		if (lhs < rhs)
+			return false;
+		return true;
+	}
 
+	template <class T, class Alloc>
+	bool operator>=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		if (lhs <= rhs)
+			return false;
+		return true;
+	}
+
+	template <class T, class Alloc>
+	void swap(vector<T,Alloc>& x, vector<T,Alloc>& y)
+	{
+		utils::swap(x, y);
 	}
 }
 
