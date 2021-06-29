@@ -35,6 +35,14 @@ namespace utils
 		a = b;
 		b = c;
 	}
+
+	template <typename T>
+	struct is_integral
+	{
+		public:
+			bool value;
+		template<> struct is_integral<bool>: std::true_type {};
+	};
 }
 
 #endif
