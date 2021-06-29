@@ -11,8 +11,10 @@ int main(void)
 	vec.push_back(3);
 	vec.push_back(4);
 	vec.push_back(5);
-	ft::vector<int>::reverse_iterator it(vec.begin());
-	ft::vector<int>::reverse_iterator it2(vec.end());
 
-	std::cout << (it < it2) << std::endl;
+	ft::vector<int>::iterator it = vec.begin() + 2;
+	vec.insert(it, 9);
+
+	for (ft::vector<int>::iterator iti = vec.begin(); iti != vec.end(); ++iti)
+		std::cout << *iti << std::endl;
 }

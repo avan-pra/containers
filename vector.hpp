@@ -40,16 +40,17 @@ namespace ft
 			explicit vector (const allocator_type& alloc = allocator_type()) : _alloc(alloc), _ptr(NULL), _size(0), _size_alloc(0) { }
 			explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : _alloc(alloc), _ptr(NULL), _size(0), _size_alloc(0)
 			{
+				// std::cout << "hey" << std::endl;
 				for (size_type i = 0; i < n; ++i)
 					push_back(val);
 			}
-			//template <class InputIterator>
-			//vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
-			vector (const vector& x) : _alloc(x._alloc), _ptr(NULL), _size(0), _size_alloc(0)
+			template <class InputIterator>
+			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) : _alloc(alloc), _ptr(NULL), _size(0), _size_alloc(0)
 			{
-				for (size_type i = 0; i < x._size; ++i)
-					push_back(x[i]);
+				for (; first != last; ++first)
+					push_back(*first);
 			}
+			vector (const vector& x) : _alloc(x._alloc), _ptr(NULL), _size(0), _size_alloc(0) { *this = x; }
 
 			~vector()
 			{
@@ -57,16 +58,21 @@ namespace ft
 				_alloc.deallocate(_ptr, _size_alloc);
 			}
 
-			//vector& operator= (const vector& x);
+			vector& operator= (const vector& x)
+			{
+				for (size_type i = 0; i < x._size; ++i)
+					push_back(x[i]);
+				return *this;
+			}
 
 			iterator begin() { return iterator(_ptr); }
 			const_iterator begin() const { return iterator(_ptr); }
-			iterator end()	{ return iterator(_ptr + _size); }
-// const_iterator end() const;
-//   reverse_iterator rbegin();
-// const_reverse_iterator rbegin() const;
-//   reverse_iterator rend();
-// const_reverse_iterator rend() const;
+			iterator end() { return iterator(_ptr + _size); }
+			const_iterator end() const { return iterator(_ptr + _size); }
+			reverse_iterator rbegin() { return reverse_iterator(_ptr + _size - 1); }
+			const_reverse_iterator rbegin() const { return reverse_iterator(_ptr + _size - 1); }
+			reverse_iterator rend() { return reverse_iterator(_ptr - 1); }
+			const_reverse_iterator rend() const { return reverse_iterator(_ptr - 1); }
 
 			size_type size() const
 			{
@@ -123,14 +129,14 @@ namespace ft
 				return _ptr[n];
 			}
 			
-			reference at (size_type n)
+			reference at(size_type n)
 			{
 				if (n < 0 || n >= _size_alloc)
 					throw std::out_of_range(ft_to_string(n));
 				return _ptr[n];
 			}
 			
-			const_reference at (size_type n) const
+			const_reference at(size_type n) const
 			{
 				if (n < 0 || n >= _size_alloc)
 					throw std::out_of_range(ft_to_string(n));
@@ -157,8 +163,12 @@ namespace ft
 				return _ptr[_size - 1];
 			}
 
-// template <class InputIterator>
-// void assign (InputIterator first, InputIterator last);
+			template <class InputIterator>
+			void assign (InputIterator first, InputIterator last)
+			{
+				for (; first != last; ++first)
+					push_back(*first);
+			}
 			void assign (size_type n, const value_type& val)
 			{
 				value_type L = val;
@@ -184,8 +194,19 @@ namespace ft
 				--_size;
 			}
 
-			// iterator insert (iterator position, const value_type& val);
-    		// void insert (iterator position, size_type n, const value_type& val);
+			iterator insert(iterator position, const value_type& val)
+    		{
+				value_type L = val;
+
+				if (_size == _size_alloc)
+					reserve((_size_alloc == 0 ? 1 : _size_alloc) * 2);
+				for (iterator it = end(); it != position; --it)
+					::swap(*it, *(it - 1));
+				_alloc.construct(position.operator->(), L);
+				++_size;
+				return position;
+			}
+			// void insert (iterator position, size_type n, const value_type& val);
 
 			// template <class InputIterator>
     		// void insert (iterator position, InputIterator first, InputIterator last);
@@ -200,7 +221,7 @@ namespace ft
 
 			// }
 
-			void swap (vector& x)
+			void swap(vector& x)
 			{
 				::swap(_ptr, x._ptr);
 				::swap(_size, x._size);

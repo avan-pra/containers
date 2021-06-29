@@ -26,7 +26,7 @@ namespace ft
 			bool		operator==(const iterator &it) { return _ptr == it._ptr; }
 			bool		operator!=(const iterator &it) { return !(_ptr == it._ptr); }
 			reference	operator*() { return *_ptr; }
-			pointer		operator->() { return _ptr; }
+			pointer		operator->() const { return _ptr; }
 			iterator	operator=(const iterator &it) { _ptr = it._ptr; return *this; }
 			iterator	operator++() { ++_ptr; return (*this); }
 			iterator	operator++(int f)
@@ -57,8 +57,6 @@ namespace ft
 			iterator	operator+=(const size_type &n) { _ptr += n; return *this; }
 			iterator	operator-=(const size_type &n) { _ptr -= n; return *this; }
 			reference	operator[](const size_type &n) { return *(_ptr + n); }
-			
-			pointer		get_pointer() const { return _ptr; }
 	};
 
 }
