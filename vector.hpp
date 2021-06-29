@@ -40,13 +40,14 @@ namespace ft
 			explicit vector (const allocator_type& alloc = allocator_type()) : _alloc(alloc), _ptr(NULL), _size(0), _size_alloc(0) { }
 			explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : _alloc(alloc), _ptr(NULL), _size(0), _size_alloc(0)
 			{
-				// std::cout << "hey" << std::endl;
+				std::cout << "2" << std::endl;
 				for (size_type i = 0; i < n; ++i)
 					push_back(val);
 			}
 			template <class InputIterator>
-			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) : _alloc(alloc), _ptr(NULL), _size(0), _size_alloc(0)
+			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename std::enable_if<!std::is_integral<InputIterator>::value >::type* = 0) : _alloc(alloc), _ptr(NULL), _size(0), _size_alloc(0)
 			{
+				std::cout << "3" << std::endl;
 				for (; first != last; ++first)
 					push_back(*first);
 			}
