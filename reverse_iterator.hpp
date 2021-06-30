@@ -56,7 +56,7 @@ namespace ft
 			reverse_iterator	operator+(difference_type n) const { return _ptr + n; }
 			reverse_iterator	operator+(const reverse_iterator &n) const { return _ptr + n._ptr; }
 			reverse_iterator	operator-(difference_type n) const { return _ptr - n; }
-			reverse_iterator	operator-(const reverse_iterator &n) const { return _ptr - n._ptr; }
+			difference_type	operator-(const reverse_iterator &n) const { return _ptr - n._ptr; }
 			bool		operator<(const reverse_iterator &n) const { return _ptr > n._ptr; }
 			bool		operator>(const reverse_iterator &n) const { return _ptr < n._ptr; }
 			bool		operator<=(const reverse_iterator &n) const { return _ptr >= n._ptr; }

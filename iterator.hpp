@@ -51,7 +51,7 @@ namespace ft
 			iterator	operator+(difference_type n) const { return _ptr + n; }
 			iterator	operator+(const iterator &n) const { return _ptr + n._ptr; }
 			iterator	operator-(difference_type n) const { return _ptr - n; }
-			iterator	operator-(const iterator &n) const { return _ptr - n._ptr; }
+			difference_type	operator-(const iterator &n) const { return _ptr - n._ptr; }
 			bool		operator<(const iterator &n) const { return _ptr < n._ptr; }
 			bool		operator>(const iterator &n) const { return _ptr > n._ptr; }
 			bool		operator<=(const iterator &n) const { return _ptr <= n._ptr; }

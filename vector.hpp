@@ -17,18 +17,18 @@ namespace ft
 	class vector
 	{
 		public:
-			typedef T									value_type;
-			typedef Alloc								allocator_type;
-			typedef T									&reference;
-			typedef const T								&const_reference;
-			typedef T									*pointer;
-			typedef const T								*const_pointer;
-			typedef iterator<value_type>				iterator;
-			typedef const iterator						const_iterator;
-			typedef reverse_iterator<value_type>		reverse_iterator;
-			typedef const reverse_iterator				const_reverse_iterator;
-			typedef size_t								size_type;
-			typedef std::ptrdiff_t						difference_type;
+			typedef T										value_type;
+			typedef Alloc									allocator_type;
+			typedef T										&reference;
+			typedef const T									&const_reference;
+			typedef T										*pointer;
+			typedef const T									*const_pointer;
+			typedef ft::iterator<value_type>				iterator;
+			typedef ft::iterator<const value_type>			const_iterator;
+			typedef ft::reverse_iterator<value_type>		reverse_iterator;
+			typedef ft::reverse_iterator<const value_type>	const_reverse_iterator;
+			typedef size_t									size_type;
+			typedef std::ptrdiff_t							difference_type;
 
 		private:
 			Alloc			_alloc;
@@ -40,14 +40,12 @@ namespace ft
 			explicit vector (const allocator_type& alloc = allocator_type()) : _alloc(alloc), _ptr(NULL), _size(0), _size_alloc(0) { }
 			explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : _alloc(alloc), _ptr(NULL), _size(0), _size_alloc(0)
 			{
-				std::cout << "2" << std::endl;
 				for (size_type i = 0; i < n; ++i)
 					push_back(val);
 			}
 			template <class InputIterator>
 			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename utils::enable_if<!utils::is_integral<InputIterator>::value >::type* = 0) : _alloc(alloc), _ptr(NULL), _size(0), _size_alloc(0)
 			{
-				std::cout << "3" << std::endl;
 				for (; first != last; ++first)
 					push_back(*first);
 			}
@@ -67,13 +65,13 @@ namespace ft
 			}
 
 			iterator begin() { return iterator(_ptr); }
-			const_iterator begin() const { return iterator(_ptr); }
+			const_iterator begin() const { return const_iterator(_ptr); }
 			iterator end() { return iterator(_ptr + _size); }
-			const_iterator end() const { return iterator(_ptr + _size); }
+			const_iterator end() const { return const_iterator(_ptr + _size); }
 			reverse_iterator rbegin() { return reverse_iterator(_ptr + _size - 1); }
-			const_reverse_iterator rbegin() const { return reverse_iterator(_ptr + _size - 1); }
+			const_reverse_iterator rbegin() const { return const_reverse_iterator(_ptr + _size - 1); }
 			reverse_iterator rend() { return reverse_iterator(_ptr - 1); }
-			const_reverse_iterator rend() const { return reverse_iterator(_ptr - 1); }
+			const_reverse_iterator rend() const { return const_reverse_iterator(_ptr - 1); }
 
 			size_type size() const
 			{
