@@ -45,7 +45,7 @@ namespace ft
 					push_back(val);
 			}
 			template <class InputIterator>
-			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename std::enable_if<!std::is_integral<InputIterator>::value >::type* = 0) : _alloc(alloc), _ptr(NULL), _size(0), _size_alloc(0)
+			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename utils::enable_if<!utils::is_integral<InputIterator>::value >::type* = 0) : _alloc(alloc), _ptr(NULL), _size(0), _size_alloc(0)
 			{
 				std::cout << "3" << std::endl;
 				for (; first != last; ++first)

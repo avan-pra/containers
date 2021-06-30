@@ -36,13 +36,40 @@ namespace utils
 		b = c;
 	}
 
-	template <typename T>
-	struct is_integral
+	template <bool is_integral, typename T>
+	struct __is_integral_res
 	{
-		public:
-			bool value;
-		template<> struct is_integral<bool>: std::true_type {};
+		static const bool value = is_integral;
+		typedef T type;
 	};
+
+	template <typename T>
+	struct __is_integral_helper : public __is_integral_res<false, T> { };
+	template <>
+	struct __is_integral_helper<bool> : public __is_integral_res<true, bool> { };
+	template <>
+	struct __is_integral_helper<char> : public __is_integral_res<true, char> { };
+	template <>
+	struct __is_integral_helper<char16_t> : public __is_integral_res<true, char16_t> { };
+	template <>
+	struct __is_integral_helper<char32_t> : public __is_integral_res<true, char32_t> { };
+	template <>
+	struct __is_integral_helper<wchar_t> : public __is_integral_res<true, wchar_t> { };
+	template <>
+	struct __is_integral_helper<short> : public __is_integral_res<true, short> { };
+	template <>
+	struct __is_integral_helper<int> : public __is_integral_res<true, int> { };
+	template <>
+	struct __is_integral_helper<long> : public __is_integral_res<true, long> { };
+	template <>
+	struct __is_integral_helper<long long> : public __is_integral_res<true, long long> { };
+
+	template <typename T>
+	struct is_integral : public __is_integral_helper<T> { };
+
+	template<bool Cond, class T = void> struct enable_if {};
+	template<class T> struct enable_if<true, T> { typedef T type; };
+
 }
 
 #endif
