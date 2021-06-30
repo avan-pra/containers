@@ -165,7 +165,7 @@ namespace ft
 			}
 
 			template <class InputIterator>
-			void assign (InputIterator first, InputIterator last)
+			void assign (InputIterator first, InputIterator last, typename utils::enable_if<!utils::is_integral<InputIterator>::value >::type* = 0)
 			{
 				for (; first != last; ++first)
 					push_back(*first);

@@ -2,18 +2,20 @@
 # define VECTOR_ITERATOR_HPP
 
 # include <iterator>
+# include "traits.hpp"
 
 namespace ft
 {
 	template <class T, class Distance = ptrdiff_t,
-		  class Pointer = T*, class Reference = T&, class Category = std::random_access_iterator_tag>
-	struct iterator {
+		  class Pointer = T*, class Reference = T&, class Category = traits::random_access_iterator_tag>
+	struct iterator : public traits::random_access_iterator_tag
+	{
 		public:
 			typedef T			value_type;
 			typedef Distance	difference_type;
 			typedef Pointer  	pointer;
 			typedef Reference	reference;
-			typedef std::random_access_iterator_tag	iterator_category;
+			typedef Category	iterator_category;
 			typedef size_t		size_type;
 		private:
 			pointer		_ptr;
@@ -23,8 +25,8 @@ namespace ft
 			iterator(const iterator &it) : _ptr(it._ptr) { }
 			~iterator() { }
 
-			bool		operator==(const iterator &it) { return _ptr == it._ptr; }
-			bool		operator!=(const iterator &it) { return !(_ptr == it._ptr); }
+			bool		operator==(const iterator &it) const { return _ptr == it._ptr; }
+			bool		operator!=(const iterator &it) const { return !(_ptr == it._ptr); }
 			reference	operator*() { return *_ptr; }
 			pointer		operator->() const { return _ptr; }
 			iterator	operator=(const iterator &it) { _ptr = it._ptr; return *this; }

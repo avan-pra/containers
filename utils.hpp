@@ -36,6 +36,7 @@ namespace utils
 		b = c;
 	}
 
+	//is_integral implementation
 	template <bool is_integral, typename T>
 	struct __is_integral_res
 	{
@@ -67,9 +68,9 @@ namespace utils
 	template <typename T>
 	struct is_integral : public __is_integral_helper<T> { };
 
+	//enable_if implementation
 	template<bool Cond, class T = void> struct enable_if {};
 	template<class T> struct enable_if<true, T> { typedef T type; };
-
 }
 
 #endif

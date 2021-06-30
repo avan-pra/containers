@@ -2,6 +2,7 @@
 # define VECTOR_REVERSE_ITERATOR_HPP
 
 # include <iterator>
+# include "traits.hpp"
 
 template <class T>
 struct iterator;
@@ -9,8 +10,9 @@ struct iterator;
 namespace ft
 {
 	template <class T, class Distance = ptrdiff_t,
-		  class Pointer = T*, class Reference = T&, class Category = std::random_access_iterator_tag>
-	struct reverse_iterator {
+		  class Pointer = T*, class Reference = T&, class Category = traits::random_access_iterator_tag>
+	struct reverse_iterator : public traits::random_access_iterator_tag
+	{
 		public:
 			typedef iterator<T> iterator_type;
 			typedef std::random_access_iterator_tag	iterator_category;
