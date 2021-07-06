@@ -1,7 +1,6 @@
 #ifndef VECTOR_REVERSE_ITERATOR_HPP
 # define VECTOR_REVERSE_ITERATOR_HPP
 
-# include <iterator>
 # include "traits.hpp"
 
 template <class T>
@@ -33,7 +32,7 @@ namespace ft
 			bool		operator==(const reverse_iterator &it) { return _ptr == it._ptr; }
 			bool		operator!=(const reverse_iterator &it) { return !(_ptr == it._ptr); }
 			reference	operator*() { return *_ptr; }
-			pointer		operator->() { return _ptr; }
+			pointer		operator->() const { return _ptr; }
 			reverse_iterator	operator=(const reverse_iterator &it) { _ptr = it._ptr; return *this; }
 			reverse_iterator	operator++() { --_ptr; return (*this); }
 			reverse_iterator	operator++(int f)
