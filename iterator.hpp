@@ -6,7 +6,7 @@
 
 namespace ft
 {
-	template <class T, class Distance = ptrdiff_t,
+	template <class T, class Container, class Distance = ptrdiff_t,
 		  class Pointer = T*, class Reference = T&, class Category = traits::random_access_iterator_tag>
 	struct iterator : public traits::random_access_iterator_tag
 	{
@@ -22,7 +22,8 @@ namespace ft
 		public:
 			iterator() : _ptr(NULL) { }
 			iterator(pointer ptr) : _ptr(ptr) { }
-			iterator(const iterator &it) : _ptr(it._ptr) { }
+			iterator(const typename Container::iterator &it) : _ptr(it.operator->()) { }
+			iterator(const typename Container::const_iterator &it) : _ptr(it._ptr) { }
 			~iterator() { }
 
 			bool		operator==(const iterator &it) const { return _ptr == it._ptr; }
@@ -48,9 +49,9 @@ namespace ft
 				_ptr--;
 				return (f1);
 			}
-			iterator	operator+(difference_type n) const { return _ptr + n; }
-			iterator	operator+(const iterator &n) const { return _ptr + n._ptr; }
-			iterator	operator-(difference_type n) const { return _ptr - n; }
+			iterator	operator+(const difference_type &n) const { return iterator(_ptr + n); }
+			iterator	operator-(const difference_type &n) const { return iterator(_ptr - n); }
+			difference_type	operator+(const iterator &n) const { return _ptr + n._ptr; }
 			difference_type	operator-(const iterator &n) const { return _ptr - n._ptr; }
 			bool		operator<(const iterator &n) const { return _ptr < n._ptr; }
 			bool		operator>(const iterator &n) const { return _ptr > n._ptr; }
@@ -60,7 +61,10 @@ namespace ft
 			iterator	operator-=(const size_type &n) { _ptr -= n; return *this; }
 			reference	operator[](const size_type &n) { return *(_ptr + n); }
 	};
-
+	// template <class T, class V>
+	// iterator<V>	operator+(const T &n, const iterator<V> &it) { return iterator<V>(it.operator->() + n); }
+	// template <class T, class V>
+	// iterator<V>	operator-(const T &n, const iterator<V> &it) { return iterator<V>(it.operator->() - n); }
 }
 
 #endif

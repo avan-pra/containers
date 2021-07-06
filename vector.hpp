@@ -9,9 +9,7 @@
 # include <iostream>
 # include "utils.hpp"
 # include "iterator.hpp"
-# include "const_iterator.hpp"
 # include "reverse_iterator.hpp"
-# include "const_reverse_iterator.hpp"
 
 namespace ft
 {
@@ -25,10 +23,10 @@ namespace ft
 			typedef const T									&const_reference;
 			typedef T										*pointer;
 			typedef const T									*const_pointer;
-			typedef ft::iterator<value_type>				iterator;
-			typedef ft::const_iterator<value_type>			const_iterator;
-			typedef ft::reverse_iterator<value_type>		reverse_iterator;
-			typedef ft::const_reverse_iterator<value_type>	const_reverse_iterator;
+			typedef ft::iterator<value_type, vector<value_type> >						iterator;
+			typedef ft::iterator<const value_type, const vector<value_type> >			const_iterator;
+			typedef ft::reverse_iterator<value_type, vector<value_type> >				reverse_iterator;
+			typedef ft::reverse_iterator<const value_type, const vector<value_type> >	const_reverse_iterator;
 			typedef size_t									size_type;
 			typedef std::ptrdiff_t							difference_type;
 
@@ -192,7 +190,7 @@ namespace ft
 
 			void pop_back()
 			{
-				_alloc.destroy(_ptr[_size - 1]);
+				_alloc.destroy(&(_ptr[_size - 1]));
 				--_size;
 			}
 
@@ -218,7 +216,7 @@ namespace ft
 			}
 
 			template <class InputIterator>
-			void insert (iterator position, InputIterator first, InputIterator last)
+			void insert (iterator position, InputIterator first, InputIterator last, typename utils::enable_if<!utils::is_integral<InputIterator>::value >::type* = 0)
 			{
 				for (; first != last; ++first)
 					position = insert(position, *first);
@@ -239,6 +237,7 @@ namespace ft
 			{
 				for (; first != last; ++first)
 					first = erase(first);
+				return first;
 			}
 
 			void swap(vector& x)

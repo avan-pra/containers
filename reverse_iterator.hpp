@@ -8,12 +8,12 @@ struct iterator;
 
 namespace ft
 {
-	template <class T, class Distance = ptrdiff_t,
+	template <class T, class Container, class Distance = ptrdiff_t,
 		  class Pointer = T*, class Reference = T&, class Category = traits::random_access_iterator_tag>
 	struct reverse_iterator : public traits::random_access_iterator_tag
 	{
 		public:
-			typedef iterator<T> iterator_type;
+			typedef iterator<T, Container> iterator_type;
 			typedef std::random_access_iterator_tag	iterator_category;
 			typedef T			value_type;
 			typedef Distance	difference_type;
@@ -24,9 +24,9 @@ namespace ft
 			pointer		_ptr;
 		public:
 			reverse_iterator() : _ptr(NULL) { }
-			explicit reverse_iterator(const iterator_type &it) : _ptr(it.operator->()) { }
+			// explicit reverse_iterator(const iterator_type &it) : _ptr(it.operator->()) { }
 			template <class Iter>
-			reverse_iterator (const reverse_iterator<Iter>& rev_it) : _ptr(rev_it._ptr) { }
+			reverse_iterator (const reverse_iterator<Iter, Container>& rev_it) : _ptr(rev_it._ptr) { }
 			~reverse_iterator() { }
 
 			bool		operator==(const reverse_iterator &it) { return _ptr == it._ptr; }
