@@ -24,10 +24,14 @@ namespace ft
 			pointer		_ptr;
 		public:
 			reverse_iterator() : _ptr(NULL) { }
-			// explicit reverse_iterator(const iterator_type &it) : _ptr(it.operator->()) { }
+			explicit reverse_iterator(const iterator_type &it) : _ptr(it.operator->()) { }
 			template <class Iter>
 			reverse_iterator (const reverse_iterator<Iter, Container>& rev_it) : _ptr(rev_it._ptr) { }
 			~reverse_iterator() { }
+
+			reverse_iterator(pointer ptr) : _ptr(ptr) { }
+			reverse_iterator(const typename Container::reverse_iterator &it) : _ptr(it.operator->()) { }
+			reverse_iterator(const typename Container::const_reverse_iterator &it) : _ptr(it._ptr) { }
 
 			bool		operator==(const reverse_iterator &it) { return _ptr == it._ptr; }
 			bool		operator!=(const reverse_iterator &it) { return !(_ptr == it._ptr); }
