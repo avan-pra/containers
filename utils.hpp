@@ -3,6 +3,9 @@
 
 # include <iostream>
 
+# define char16_t uint16_t
+# define char32_t uint32_t
+
 namespace utils
 {
 	template <typename T>
