@@ -184,7 +184,7 @@ namespace ft
 				value_type L = val;
 
 				if (_size == _size_alloc)
-					reserve(_size_alloc + 1);
+					reserve((_size_alloc == 0 ? 1 : _size_alloc) * 2);
 				_alloc.construct(&_ptr[_size], L);
 				++_size;
 			}
@@ -209,7 +209,7 @@ namespace ft
 				if (n > 0)
 				{
 					vector<value_type> v;
-					v.reserve(_size + n);
+					v.reserve((_size + n > _size_alloc ? (_size_alloc * 2) : _size_alloc));
 
 					iterator it = begin();
 					while (it != position)
@@ -226,7 +226,7 @@ namespace ft
 			void insert (iterator position, InputIterator first, InputIterator last, typename utils::enable_if<!utils::is_integral<InputIterator>::value >::type* = 0)
 			{
 					vector<value_type> v;
-					v.reserve(_size + std::abs(last - first));
+					v.reserve((_size + std::abs(last - first) > _size_alloc ? (_size_alloc * 2) : _size_alloc));
 
 					iterator it = begin();
 					while (it != position)
