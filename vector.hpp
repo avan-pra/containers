@@ -165,6 +165,7 @@ namespace ft
 			template <class InputIterator>
 			void assign (InputIterator first, InputIterator last, typename utils::enable_if<!utils::is_integral<InputIterator>::value >::type* = 0)
 			{
+				clear();
 				for (; first != last; ++first)
 					push_back(*first);
 			}
@@ -183,7 +184,7 @@ namespace ft
 				value_type L = val;
 
 				if (_size == _size_alloc)
-					reserve((_size_alloc == 0 ? 1 : _size_alloc) * 2);
+					reserve(_size_alloc + 1);
 				_alloc.construct(&_ptr[_size], L);
 				++_size;
 			}
@@ -196,30 +197,45 @@ namespace ft
 
 			iterator insert(iterator position, const value_type& val)
 			{
-				value_type L = val;
+				difference_type offset = position - begin();
 
-				if (_size == _size_alloc)
-					reserve((_size_alloc == 0 ? 1 : _size_alloc) * 2);
-				for (iterator it = end(); it != position; --it)
-					utils::swap(*it, *(it - 1));
-				_alloc.construct(position.operator->(), L);
-				++_size;
-				return position;
+				insert(position, 1, val);
+
+				return (iterator(begin() + offset));
 			}
 
 			void insert (iterator position, size_type n, const value_type& val)
 			{
-				value_type L = val;
+				if (n > 0)
+				{
+					vector<value_type> v;
+					v.reserve(_size + n);
 
-				for (size_type i = 0; i < n; ++i)
-					position = insert(position, L);
+					iterator it = begin();
+					while (it != position)
+						v.push_back(*(it++));
+					while (n-- > 0)
+						v.push_back(val);
+					while (it != end())
+						v.push_back(*(it++));
+					swap(v);
+				}
 			}
 
 			template <class InputIterator>
 			void insert (iterator position, InputIterator first, InputIterator last, typename utils::enable_if<!utils::is_integral<InputIterator>::value >::type* = 0)
 			{
-				for (; first != last; ++first)
-					position = insert(position, *first);
+					vector<value_type> v;
+					v.reserve(_size + std::abs(last - first));
+
+					iterator it = begin();
+					while (it != position)
+						v.push_back(*(it++));
+					for (; first != last; ++first)
+						v.push_back(*first);
+					while (it != end())
+						v.push_back(*(it++));
+					swap(v);
 			}
 
 			iterator erase(iterator position)
@@ -235,9 +251,9 @@ namespace ft
 
 			iterator erase (iterator first, iterator last)
 			{
-				for (; first != last; ++first)
+				for (; first != last; --last)
 					first = erase(first);
-				return first;
+				return last;
 			}
 
 			void swap(vector& x)
@@ -251,6 +267,7 @@ namespace ft
 			{
 				for (size_type i = 0; i < _size; ++i)
 					_alloc.destroy(&_ptr[i]);
+				_size = 0;
 			}
 
 			allocator_type get_allocator() const
