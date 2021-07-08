@@ -31,7 +31,7 @@ namespace ft
 			reference	operator*() { return *_ptr; }
 			pointer		operator->() const { return _ptr; }
 			iterator	operator=(const iterator &it) { _ptr = it._ptr; return *this; }
-			iterator	operator++() { ++_ptr; return (*this); }
+			iterator	&operator++() { ++_ptr; return (*this); }
 			iterator	operator++(int f)
 			{
 				iterator f1(*this);
@@ -40,7 +40,7 @@ namespace ft
 				_ptr++;
 				return (f1);
 			}
-			iterator	operator--() { --_ptr; return (*this); }
+			iterator	&operator--() { --_ptr; return (*this); }
 			iterator	operator--(int f)
 			{
 				iterator f1(*this);

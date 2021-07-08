@@ -40,12 +40,16 @@ namespace ft
 			explicit vector (const allocator_type& alloc = allocator_type()) : _alloc(alloc), _ptr(NULL), _size(0), _size_alloc(0) { }
 			explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : _alloc(alloc), _ptr(NULL), _size(0), _size_alloc(0)
 			{
+				_ptr = _alloc.allocate(n);
+				_size_alloc = n;
 				for (size_type i = 0; i < n; ++i)
 					push_back(val);
 			}
 			template <class InputIterator>
 			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename utils::enable_if<!utils::is_integral<InputIterator>::value >::type* = 0) : _alloc(alloc), _ptr(NULL), _size(0), _size_alloc(0)
 			{
+				_ptr = _alloc.allocate(std::abs(last - first));
+				_size_alloc = std::abs(last - first);
 				for (; first != last; ++first)
 					push_back(*first);
 			}
@@ -59,6 +63,14 @@ namespace ft
 
 			vector& operator= (const vector& x)
 			{
+				clear();
+				if (_size_alloc < x.size())
+				{
+					_alloc.deallocate(_ptr, _size_alloc);
+					_ptr = _alloc.allocate(x.size());
+					_size_alloc = x.size();
+				}
+				// std::cout << _size_alloc << std::endl;
 				for (size_type i = 0; i < x._size; ++i)
 					push_back(x[i]);
 				return *this;
@@ -166,6 +178,12 @@ namespace ft
 			void assign (InputIterator first, InputIterator last, typename utils::enable_if<!utils::is_integral<InputIterator>::value >::type* = 0)
 			{
 				clear();
+				if (static_cast<size_type> (std::abs(last - first)) > _size_alloc)
+				{
+					_alloc.deallocate(_ptr, _size_alloc);
+					_ptr = _alloc.allocate(std::abs(last - first));
+					_size_alloc = std::abs(last - first);
+				}
 				for (; first != last; ++first)
 					push_back(*first);
 			}
@@ -175,6 +193,12 @@ namespace ft
 				value_type L = val;
 
 				clear();
+				if (n > _size_alloc)
+				{
+					_alloc.deallocate(_ptr, _size_alloc);
+					_ptr = _alloc.allocate(n);
+					_size_alloc = n;
+				}
 				for (size_type i = 0; i < n; ++i)
 					push_back(L);
 			}
@@ -208,34 +232,44 @@ namespace ft
 			{
 				if (n > 0)
 				{
-					vector<value_type> v;
-					v.reserve((_size + n > _size_alloc ? (_size_alloc * 2) : _size_alloc));
+					value_type L = val;
+					difference_type offset = position - begin();
 
-					iterator it = begin();
-					while (it != position)
-						v.push_back(*(it++));
-					while (n-- > 0)
-						v.push_back(val);
-					while (it != end())
-						v.push_back(*(it++));
-					swap(v);
+					_size + n > _size_alloc ? reserve((_size_alloc * 2 < _size + n ? _size + n : _size_alloc * 2)) : (void)0 ;
+
+					position = begin() + offset;
+					for (iterator it = end() + n; it != position + n - 1; --it)
+						utils::swap(*it, *(it - n));
+					while (n-- != 0)
+					{
+						_alloc.construct(position.operator->(), L);
+						++_size;
+						++position;
+					}
 				}
 			}
 
 			template <class InputIterator>
 			void insert (iterator position, InputIterator first, InputIterator last, typename utils::enable_if<!utils::is_integral<InputIterator>::value >::type* = 0)
 			{
-					vector<value_type> v;
-					v.reserve((_size + std::abs(last - first) > _size_alloc ? (_size_alloc * 2) : _size_alloc));
+				if (std::abs(last - first) > 0)
+				{
+					size_type n = std::abs(last - first);
+					difference_type offset = position - begin();
 
-					iterator it = begin();
-					while (it != position)
-						v.push_back(*(it++));
-					for (; first != last; ++first)
-						v.push_back(*first);
-					while (it != end())
-						v.push_back(*(it++));
-					swap(v);
+					_size + n > _size_alloc ? reserve((_size_alloc * 2 < _size + n ? _size + n : _size_alloc * 2)) : (void)0 ;
+
+					position = begin() + offset;
+					for (iterator it = end() + n; it != position + n - 1; --it)
+						utils::swap(*it, *(it - n));
+					while (n-- != 0)
+					{
+						_alloc.construct(position.operator->(), *first);
+						++_size;
+						++position;
+						++first;
+					}
+				}
 			}
 
 			iterator erase(iterator position)
