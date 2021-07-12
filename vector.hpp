@@ -70,7 +70,6 @@ namespace ft
 					_ptr = _alloc.allocate(x.size());
 					_size_alloc = x.size();
 				}
-				// std::cout << _size_alloc << std::endl;
 				for (size_type i = 0; i < x._size; ++i)
 					push_back(x[i]);
 				return *this;
