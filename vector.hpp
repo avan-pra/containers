@@ -117,7 +117,7 @@ namespace ft
 				pointer new_hold;
 
 				if (n <= _size_alloc)
-					;//prblm
+					return ;//prblm
 				new_hold = _alloc.allocate(n);
 				for (size_type i = 0; i < _size; ++i)
 				{
@@ -127,6 +127,7 @@ namespace ft
 				_alloc.deallocate(_ptr, _size_alloc);
 				_size_alloc = n;
 				_ptr = new_hold;
+				std::cout << _size_alloc << std::endl;
 			}
 
 			reference operator[] (size_type n)
@@ -207,7 +208,7 @@ namespace ft
 				value_type L = val;
 
 				if (_size == _size_alloc)
-					reserve((_size_alloc == 0 ? 1 : _size_alloc) * 2);
+					reserve((_size_alloc == 0 ? 1 : _size_alloc * 2));
 				_alloc.construct(&_ptr[_size], L);
 				++_size;
 			}

@@ -23,7 +23,7 @@ namespace ft
 			iterator() : _ptr(NULL) { }
 			iterator(pointer ptr) : _ptr(ptr) { }
 			iterator(const typename Container::iterator &it) : _ptr(it.operator->()) { }
-			iterator(const typename Container::const_iterator &it) : _ptr(it._ptr) { }
+			iterator(const typename Container::const_iterator &it) : _ptr(it.operator->()) { }
 			~iterator() { }
 
 			bool		operator==(const iterator &it) const { return _ptr == it._ptr; }
