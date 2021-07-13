@@ -61,10 +61,10 @@ namespace ft
 			iterator	operator-=(const size_type &n) { _ptr -= n; return *this; }
 			reference	operator[](const size_type &n) { return *(_ptr + n); }
 	};
-	// template <class T, class V>
-	// iterator<V>	operator+(const T &n, const iterator<V> &it) { return iterator<V>(it.operator->() + n); }
-	// template <class T, class V>
-	// iterator<V>	operator-(const T &n, const iterator<V> &it) { return iterator<V>(it.operator->() - n); }
+	template <class T, class V, class I>
+	iterator<V, T>	operator+(const I &n, const iterator<V, T> &it) { return iterator<V, T>(it.operator->() + n); }
+	// template <class T, class V, class I>
+	// iterator<V, T>	operator-(const I &n, const iterator<V, T> &it) { return iterator<V, T>(it.operator->() - n); }
 }
 
 #endif
