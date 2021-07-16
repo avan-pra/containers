@@ -127,7 +127,6 @@ namespace ft
 				_alloc.deallocate(_ptr, _size_alloc);
 				_size_alloc = n;
 				_ptr = new_hold;
-				std::cout << _size_alloc << std::endl;
 			}
 
 			reference operator[] (size_type n)
@@ -277,7 +276,7 @@ namespace ft
 				iterator it = position;				
 
 				_alloc.destroy(position.operator->());
-				for (; position != end(); ++position)
+				for (; position != end() - 1; ++position)
 					utils::swap(*position, *(position + 1));
 				--_size;
 				return it;
