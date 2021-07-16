@@ -3,9 +3,6 @@
 
 # include <iostream>
 
-# define char16_t uint16_t
-# define char32_t uint32_t
-
 namespace utils
 {
 	template <typename T>
@@ -53,10 +50,6 @@ namespace utils
 	struct __is_integral_helper<bool> : public __is_integral_res<true, bool> { };
 	template <>
 	struct __is_integral_helper<char> : public __is_integral_res<true, char> { };
-	template <>
-	struct __is_integral_helper<char16_t> : public __is_integral_res<true, char16_t> { };
-	template <>
-	struct __is_integral_helper<char32_t> : public __is_integral_res<true, char32_t> { };
 	template <>
 	struct __is_integral_helper<wchar_t> : public __is_integral_res<true, wchar_t> { };
 	template <>
