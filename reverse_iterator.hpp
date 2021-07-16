@@ -56,19 +56,20 @@ namespace ft
 				_ptr++;
 				return (f1);
 			}
-			reverse_iterator	operator+(difference_type n) const { return _ptr + n; }
-			reverse_iterator	operator+(const reverse_iterator &n) const { return _ptr + n._ptr; }
-			reverse_iterator	operator-(difference_type n) const { return _ptr - n; }
-			difference_type	operator-(const reverse_iterator &n) const { return _ptr - n._ptr; }
+			reverse_iterator	operator+(difference_type n) const { return _ptr - n; }
+			reverse_iterator	operator+(const reverse_iterator &n) const { return _ptr - n._ptr; }
+			reverse_iterator	operator-(difference_type n) const { return _ptr + n; }
+			difference_type	operator-(const reverse_iterator &n) const { return n._ptr - _ptr; }
 			bool		operator<(const reverse_iterator &n) const { return _ptr > n._ptr; }
 			bool		operator>(const reverse_iterator &n) const { return _ptr < n._ptr; }
 			bool		operator<=(const reverse_iterator &n) const { return _ptr >= n._ptr; }
 			bool		operator>=(const reverse_iterator &n) const { return _ptr <= n._ptr; }
-			reverse_iterator	operator+=(const size_type &n) { _ptr += n; return *this; }
-			reverse_iterator	operator-=(const size_type &n) { _ptr -= n; return *this; }
-			reference	operator[](const size_type &n) { return *(_ptr + n); }
+			reverse_iterator	operator+=(const size_type &n) { _ptr -= n; return *this; }
+			reverse_iterator	operator-=(const size_type &n) { _ptr += n; return *this; }
+			reference	operator[](const size_type &n) { return *(_ptr - n); }
 	};
-
+	template <class T, class V, class I>
+	reverse_iterator<V, T>	operator+(const I &n, const reverse_iterator<V, T> &it) { return reverse_iterator<V, T>(it.operator->() - n); }
 }
 
 #endif
