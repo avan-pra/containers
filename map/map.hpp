@@ -10,6 +10,7 @@
 # include "../utils/utils.hpp"
 # include "iterator.hpp"
 # include "reverse_iterator.hpp"
+# include "pair.hpp"
 
 namespace ft
 {
@@ -18,8 +19,7 @@ namespace ft
 			class Key,
 			class T,
 			class Compare = std::less<Key>,
-			class Alloc = std::allocator<T>
-			// class Alloc = std::allocator<pair<const Key,T> >    // map::allocator_type 
+			class Alloc = std::allocator<pair<const Key,T> >    // map::allocator_type 
 			>
 	class map
 	{
@@ -35,10 +35,11 @@ namespace ft
 			typedef value_type							*pointer;
 			typedef const value_type					*const_pointer;
 
+			// iterators
 
 			typedef ptrdiff_t							difference_type;
 			typedef size_t								size_type;
-			
+
 
 		private:
 			Alloc			_alloc;
