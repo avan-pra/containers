@@ -14,7 +14,6 @@
 
 namespace ft
 {
-
 	template <
 			class Key,
 			class T,
