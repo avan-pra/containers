@@ -27,7 +27,19 @@ namespace ft
 			typedef T									mapped_type;
 			typedef pair<const key_type, mapped_type>	value_type;
 			typedef Compare								key_compare;
-			//	value_compare ?????
+			class value_compare : public binary_function<value_type, value_type, bool>
+			{
+				friend class map;
+				protected:
+					Compare comp;
+					value_compare (Compare c) : comp(c) {}
+				public:
+					typedef bool result_type;
+					typedef value_type first_argument_type;
+					typedef value_type second_argument_type;
+					bool operator()(const value_type &a, const value_type &b) const { return comp(a.first, b.first); }
+				
+			};
 			typedef Alloc								allocator_type;
 			typedef value_type							&reference;
 			typedef const value_type					&const_reference;
@@ -47,7 +59,6 @@ namespace ft
 			size_type		_size;
 
 		public:
-
 
 			allocator_type get_allocator() const
 			{
