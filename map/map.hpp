@@ -41,10 +41,10 @@ namespace ft
 
 
 		private:
+			typedef	node<value_type> node;
 			Alloc			_alloc;
-			pointer			_ptr;
+			node			*top;
 			size_type		_size;
-			size_type		_size_alloc;
 
 		public:
 
