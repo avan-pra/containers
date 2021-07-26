@@ -55,10 +55,35 @@ namespace ft
 		private:
 			typedef	node<value_type> node;
 			Alloc			_alloc;
+			key_compare		_comp;
 			node			*top;
 			size_type		_size;
 
 		public:
+			explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
+			{
+				_comp = comp;
+				_alloc = alloc;
+				top = NULL;
+				_size = 0;
+			}
+
+			// template <class InputIterator>
+  			// map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type());
+
+			map (const map& x)
+			{
+				_comp = x._comp;
+				_alloc = x._alloc;
+				_size = x._size;
+				// idk top
+			}
+
+
+
+
+
+
 
 			allocator_type get_allocator() const
 			{
