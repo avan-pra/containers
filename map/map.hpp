@@ -103,31 +103,38 @@ namespace ft
 
 			}
 
-			void test() //enft c genre insert
+			void insert(const value_type& val)
 			{
 				if (_size == 0)
 				{
 					pointer tmp = _alloc.allocate(1);
-					ft::pair<const Key, mapped_type>(1, 2);
+					_alloc.construct(tmp, val);
 
-					top = new node(*tmp);
+					top = new node(tmp);
 					++_size;
 				}
-				// else
 				{
-					value_type new_element(3, 1);
-					node *tmp = top;
-					
-					if (_comp(tmp->data.first, new_element.first))
-					{
-						std::cout << "yes" << std::endl;
-					}
-					else
-					{
-						std::cout << "no" << std::endl;
-					}
-					
+					_alloc.destroy(top->data);
+					_alloc.deallocate(top->data, 1);
+					delete top;
 				}
+				// std::cout << top->data.first << std::endl;
+				// else
+				// {
+				// 	value_type new_element(3, 1);
+				// 	node *tmp = top;
+					
+				// 	//					1				3
+				// 	if (_comp(tmp->data.first, new_element.first))
+				// 	{
+				// 		std::cout << "yes" << std::endl;
+				// 	}
+				// 	else
+				// 	{
+				// 		std::cout << "no" << std::endl;
+				// 	}
+
+				// }
 
 
 

@@ -8,12 +8,14 @@ struct node
 {
 	public:
 		typedef T		value_type;
-		value_type	data;
+		typedef value_type		*pointer;
+		pointer		data;
 		struct node	*left;
 		struct node	*right;
 		struct node	*parent;
 
 		node();
+		node(const pointer val = value_type()) : data(val), left(NULL), right(NULL), parent(NULL) { }
 		node(const value_type &val = value_type()) : data(val), left(NULL), right(NULL), parent(NULL) { }
 		~node() { }
 		node(const node &node) : data(node.data), left(node.left), right(node.right), parent(node.parent) { }
