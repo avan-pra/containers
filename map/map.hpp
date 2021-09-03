@@ -11,6 +11,14 @@
 # include "iterator.hpp"
 # include "reverse_iterator.hpp"
 # include "pair.hpp"
+# include "node.hpp"
+
+class test1212
+{
+	public:
+		test1212() { std::cout << "hola" << std::endl; }
+		~test1212() { std::cout << "ciao" << std::endl; }
+};
 
 namespace ft
 {
@@ -27,7 +35,7 @@ namespace ft
 			typedef T									mapped_type;
 			typedef pair<const key_type, mapped_type>	value_type;
 			typedef Compare								key_compare;
-			class value_compare : public binary_function<value_type, value_type, bool>
+			class value_compare : public std::binary_function<value_type, value_type, bool>
 			{
 				friend class map;
 				protected:
@@ -60,7 +68,7 @@ namespace ft
 			size_type		_size;
 
 		public:
-			explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
+			explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
 			{
 				_comp = comp;
 				_alloc = alloc;
@@ -69,19 +77,53 @@ namespace ft
 			}
 
 			// template <class InputIterator>
-  			// map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type());
+  			// map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type());
 
-			map (const map& x)
+			map(const map& x)
 			{
 				_comp = x._comp;
 				_alloc = x._alloc;
 				_size = x._size;
-				// idk top
+				// parse tt la map et dupliquer ?
 			}
 
+			~map()
+			{
+				//clear();
+			}
+
+			map& operator=(const map& x)
+			{
+				//keep allocator
+				//copy remote map
+			}
+
+			mapped_type& operator[](const key_type& k)
+			{
+
+			}
+
+			void test() //enft c genre insert
+			{
+				if (_size == 0)
+				{
+					pointer tmp = _alloc.allocate(1);
+					ft::pair<const Key, mapped_type>(1, 2);
+
+					top = new node(*tmp);
+					++_size;
+				}
+				// else
+				{
+					node *tmp;
+				}
 
 
 
+
+
+
+			}
 
 
 

@@ -1,8 +1,9 @@
-#include "vector.hpp"
+#include "map.hpp"
 #include <map>
 #include <iostream>
 
 int             main(void)
 {
-	std::map<int, int> m;
+	ft::map<int, int> m;
+	m.test();
 }
