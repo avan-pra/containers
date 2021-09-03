@@ -115,9 +115,19 @@ namespace ft
 				}
 				// else
 				{
-					node *tmp;
+					value_type new_element(3, 1);
+					node *tmp = top;
+					
+					if (_comp(tmp->data.first, new_element.first))
+					{
+						std::cout << "yes" << std::endl;
+					}
+					else
+					{
+						std::cout << "no" << std::endl;
+					}
+					
 				}
-
 
 
 
