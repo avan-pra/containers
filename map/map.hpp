@@ -103,8 +103,17 @@ namespace ft
 
 			}
 
-			void insert(const value_type& val)
+			void test()
 			{
+				std::cout << top->data->first << std::endl;
+				std::cout << top->left << std::endl;
+				std::cout << top->right << std::endl;
+				std::cout << top->right->right->data->first << std::endl;
+				std::cout << top->left->data->second << std::endl;
+			}
+
+			void insert(const value_type& val) //mauvais return type
+			{//verify that an already existing key doesnt exist ou pas
 				if (_size == 0)
 				{
 					pointer tmp = _alloc.allocate(1);
@@ -113,36 +122,49 @@ namespace ft
 					top = new node(tmp);
 					++_size;
 				}
+				else
 				{
-					_alloc.destroy(top->data);
-					_alloc.deallocate(top->data, 1);
-					delete top;
+					node *traversal = top;
+					while (1)
+					{
+						if (_comp(val.first, traversal->data->first))
+						{//goto left
+							if (traversal->left == NULL)
+							{
+								pointer tmp = _alloc.allocate(1);
+								_alloc.construct(tmp, val);
+
+								traversal->left = new node(tmp, traversal);
+								++_size;
+								return ;
+							}
+							else
+								traversal = traversal->left;
+						}
+						else
+						{//goto right
+							if (traversal->right == NULL)
+							{
+								pointer tmp = _alloc.allocate(1);
+								_alloc.construct(tmp, val);
+
+								traversal->right = new node(tmp, traversal);
+								++_size;
+								return ;
+							}
+							else
+								traversal = traversal->right;
+						}
+					}
 				}
-				// std::cout << top->data.first << std::endl;
-				// else
-				// {
-				// 	value_type new_element(3, 1);
-				// 	node *tmp = top;
-					
-				// 	//					1				3
-				// 	if (_comp(tmp->data.first, new_element.first))
-				// 	{
-				// 		std::cout << "yes" << std::endl;
-				// 	}
-				// 	else
-				// 	{
-				// 		std::cout << "no" << std::endl;
-				// 	}
-
-				// }
-
-
-
-
-
 			}
 
-
+			void clear() //not done, need to do this for every node in the map
+			{
+				_alloc.destroy(top->data);
+				_alloc.deallocate(top->data, 1);
+				delete top;
+			}
 
 			allocator_type get_allocator() const
 			{

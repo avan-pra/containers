@@ -19,6 +19,7 @@ struct node
 		node(const value_type &val = value_type()) : data(val), left(NULL), right(NULL), parent(NULL) { }
 		~node() { }
 		node(const node &node) : data(node.data), left(node.left), right(node.right), parent(node.parent) { }
+		node(const pointer val, node *depend) : data(val), left(NULL), right(NULL), parent(depend) { }
 		node(const value_type &val, node *depend) : data(val), left(NULL), right(NULL), parent(depend) { }
 		node &operator=(const node &node)
 		{
