@@ -2,38 +2,42 @@
 # define VECTOR_ITERATOR_HPP
 
 # include "../utils/traits.hpp"
+# include "node.hpp"
 
 namespace ft
 {
-	template <class T, class K, class M, class Container, class Distance = ptrdiff_t,
+	template <class T, class Container, class Distance = ptrdiff_t,
 		  class Pointer = T*, class Reference = T&, class Category = traits::bidirectional_iterator_tag>
 	struct iterator : public traits::bidirectional_iterator_tag
 	{
 		public:
 			typedef T			value_type;
-			typedef K			key_type;
-			typedef M			mapped_type;
 			typedef Distance	difference_type;
 			typedef Pointer  	pointer;
 			typedef Reference	reference;
 			typedef Category	iterator_category;
 			typedef size_t		size_type;
+		
 		private:
-			pointer		_ptr;
+			typedef		node<value_type> node;
+			node		_ptr;
+
 		public:
 			iterator() : _ptr(NULL) { }
-			iterator(pointer ptr) : _ptr(ptr) { }
+			iterator(node *elem): _ptr(elem) { }
+			iterator(iterator *other): _ptr(other->_ptr) { }
 			// iterator(const typename Container::iterator &it) : _ptr(it.operator->()) { }
 			// iterator(const typename Container::const_iterator &it) : _ptr(it.operator->()) { }
 			~iterator() { }
 
-			key_type first()
+			pointer operator->()
 			{
-				return _ptr->data->first;
+				return _ptr.data;
 			}
-			mapped_type second()
+
+			value_type operator*()
 			{
-				return _ptr->data->second;
+				return *(_ptr.data);
 			}
 			// bool		operator==(const iterator &it) const { return _ptr == it._ptr; }
 			// bool		operator!=(const iterator &it) const { return !(_ptr == it._ptr); }

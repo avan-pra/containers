@@ -54,10 +54,10 @@ namespace ft
 			typedef value_type							*pointer;
 			typedef const value_type					*const_pointer;
 
-			typedef ft::iterator<node<value_type>, key_type, mapped_type, map<key_type, mapped_type> >						iterator;
-			typedef ft::iterator<const node<value_type>, key_type, mapped_type, const map<key_type, mapped_type> >			const_iterator;
-			// typedef ft::reverse_iterator<node<value_type>, key_type, mapped_type, map<key_type, mapped_type> >				reverse_iterator;
-			// typedef ft::reverse_iterator<const node<value_type>, key_type, mapped_type, const map<key_type, mapped_type> >	const_reverse_iterator;
+			typedef ft::iterator<value_type, map<key_type, mapped_type> >						iterator;
+			typedef ft::iterator<const value_type, const map<key_type, mapped_type> >			const_iterator;
+			typedef ft::reverse_iterator<value_type, map<key_type, mapped_type> >				reverse_iterator;
+			typedef ft::reverse_iterator<const value_type, const map<key_type, mapped_type> >	const_reverse_iterator;
 
 			typedef ptrdiff_t							difference_type;
 			typedef size_t								size_type;
@@ -115,7 +115,7 @@ namespace ft
 				std::cout << top->left->data->second << std::endl;
 			}
 
-			iterator insert(const value_type& val) //mauvais return type
+			ft::pair<iterator, bool> insert(const value_type& val)
 			{//verify that an already existing key doesnt exist ou pas
 				if (_size == 0)
 				{
@@ -124,7 +124,7 @@ namespace ft
 
 					top = new node(tmp);
 					++_size;
-					return iterator(top);
+					return ft::pair<iterator, bool>(iterator(top), true);
 				}
 				else
 				{
@@ -140,7 +140,7 @@ namespace ft
 
 								traversal->left = new node(tmp, traversal);
 								++_size;
-								return iterator(traversal->left);
+								return ft::pair<iterator, bool>(iterator(traversal->left), true);
 							}
 							else
 								traversal = traversal->left;
@@ -154,7 +154,7 @@ namespace ft
 
 								traversal->right = new node(tmp, traversal);
 								++_size;
-								return iterator(traversal->right);
+								return ft::pair<iterator, bool>(iterator(traversal->right), true);
 							}
 							else
 								traversal = traversal->right;
