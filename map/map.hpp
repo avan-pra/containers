@@ -68,6 +68,8 @@ namespace ft
 			Alloc			_alloc;
 			key_compare		_comp;
 			node			*top;
+			node			*lower;
+			node			*upper;
 			size_type		_size;
 
 		public:
@@ -106,9 +108,18 @@ namespace ft
 
 			}
 
+      		iterator begin()
+			{
+				return iterator(lower);
+			}
+			const_iterator begin() const
+			{
+				return const_iterator(lower);
+			}
+
 			void test()
 			{
-				std::cout << top->left->parent->data->first << std::endl;
+				// std::cout << top->left->right->left->data->first << std::endl;
 				// std::cout << top->right->data->first << std::endl;
 				// std::cout << top->left->data->second << std::endl;
 			}
@@ -122,6 +133,7 @@ namespace ft
 
 					top = new node(tmp);
 					++_size;
+					set_lower_bound();
 					return ft::pair<iterator, bool>(iterator(top), true);
 				}
 				else
@@ -138,6 +150,7 @@ namespace ft
 
 								traversal->left = new node(tmp, traversal);
 								++_size;
+								set_lower_bound();
 								return ft::pair<iterator, bool>(iterator(traversal->left), true);
 							}
 							else
@@ -152,6 +165,7 @@ namespace ft
 
 								traversal->right = new node(tmp, traversal);
 								++_size;
+								set_lower_bound();
 								return ft::pair<iterator, bool>(iterator(traversal->right), true);
 							}
 							else
@@ -173,6 +187,15 @@ namespace ft
 			allocator_type get_allocator() const
 			{
 				return _alloc;
+			}
+
+			private:
+			void set_lower_bound()
+			{
+				lower = top;
+
+				while (lower->left != NULL)
+					lower = lower->left;
 			}
 	};
 }

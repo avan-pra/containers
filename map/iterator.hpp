@@ -41,10 +41,37 @@ namespace ft
 			}
 			// bool		operator==(const iterator &it) const { return _ptr == it._ptr; }
 			// bool		operator!=(const iterator &it) const { return !(_ptr == it._ptr); }
-			// reference	operator*() { return *_ptr; }
-			// pointer		operator->() const { return _ptr; }
 			// iterator	operator=(const iterator &it) { _ptr = it._ptr; return *this; }
-			// iterator	&operator++() { ++_ptr; return (*this); }
+			
+			iterator	&operator++()
+			{
+				if (_ptr.right != NULL)
+					_ptr = getLeftMost(_ptr.right);
+				else
+				{
+					while (_ptr.parent != NULL && _ptr.parent->right == &_ptr)
+					{
+						_ptr = _ptr.parent;
+					}
+					std::cout << _ptr.data->first << ":" << _ptr.parent->right->data->first << std::endl;
+					_ptr =_ptr.parent;
+					// if (_ptr == _ptr.parent->left)
+					// 	_ptr = _ptr.parent;
+					// else if (true)
+					// 	;
+				}
+				return *this;
+			}
+
+			node *getLeftMost(node *n)
+			{
+				node *tmp = n;
+
+				while (tmp->left != NULL)
+					tmp = tmp->left;
+				return tmp;
+			}
+
 			// iterator	operator++(int f)
 			// {
 			// 	iterator f1(*this);

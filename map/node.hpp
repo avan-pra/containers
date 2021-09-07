@@ -30,6 +30,12 @@ struct node
 			parent = node.parent;
 			return *this;
 		}
+		bool	operator==(const node &node)
+		{
+			if (&node == this)
+				return true;
+			return false;
+		}
 		value_type operator->() { return data; }
 };
 
