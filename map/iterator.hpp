@@ -17,7 +17,7 @@ namespace ft
 			typedef Reference	reference;
 			typedef Category	iterator_category;
 			typedef size_t		size_type;
-		
+
 		private:
 			typedef		node<value_type> node;
 			node		_ptr;

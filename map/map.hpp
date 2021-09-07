@@ -108,15 +108,13 @@ namespace ft
 
 			void test()
 			{
-				std::cout << top->data->first << std::endl;
-				std::cout << top->left << std::endl;
-				std::cout << top->right << std::endl;
-				std::cout << top->right->right->data->first << std::endl;
-				std::cout << top->left->data->second << std::endl;
+				std::cout << top->left->parent->data->first << std::endl;
+				// std::cout << top->right->data->first << std::endl;
+				// std::cout << top->left->data->second << std::endl;
 			}
 
 			ft::pair<iterator, bool> insert(const value_type& val)
-			{//verify that an already existing key doesnt exist ou pas
+			{
 				if (_size == 0)
 				{
 					pointer tmp = _alloc.allocate(1);
@@ -145,7 +143,7 @@ namespace ft
 							else
 								traversal = traversal->left;
 						}
-						else
+						else if (_comp(traversal->data->first, val.first))
 						{//goto right
 							if (traversal->right == NULL)
 							{
@@ -159,6 +157,8 @@ namespace ft
 							else
 								traversal = traversal->right;
 						}
+						else
+							return ft::pair<iterator, bool>(iterator(traversal), false);
 					}
 				}
 			}
