@@ -54,7 +54,10 @@ namespace ft
 			typedef value_type							*pointer;
 			typedef const value_type					*const_pointer;
 
-			// iterators
+			typedef ft::iterator<node<value_type>, key_type, mapped_type, map<key_type, mapped_type> >						iterator;
+			typedef ft::iterator<const node<value_type>, key_type, mapped_type, const map<key_type, mapped_type> >			const_iterator;
+			// typedef ft::reverse_iterator<node<value_type>, key_type, mapped_type, map<key_type, mapped_type> >				reverse_iterator;
+			// typedef ft::reverse_iterator<const node<value_type>, key_type, mapped_type, const map<key_type, mapped_type> >	const_reverse_iterator;
 
 			typedef ptrdiff_t							difference_type;
 			typedef size_t								size_type;
@@ -112,7 +115,7 @@ namespace ft
 				std::cout << top->left->data->second << std::endl;
 			}
 
-			void insert(const value_type& val) //mauvais return type
+			iterator insert(const value_type& val) //mauvais return type
 			{//verify that an already existing key doesnt exist ou pas
 				if (_size == 0)
 				{
@@ -121,6 +124,7 @@ namespace ft
 
 					top = new node(tmp);
 					++_size;
+					return iterator(top);
 				}
 				else
 				{
@@ -136,7 +140,7 @@ namespace ft
 
 								traversal->left = new node(tmp, traversal);
 								++_size;
-								return ;
+								return iterator(traversal->left);
 							}
 							else
 								traversal = traversal->left;
@@ -150,7 +154,7 @@ namespace ft
 
 								traversal->right = new node(tmp, traversal);
 								++_size;
-								return ;
+								return iterator(traversal->right);
 							}
 							else
 								traversal = traversal->right;
