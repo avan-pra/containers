@@ -177,6 +177,11 @@ namespace ft
 				}
 			}
 
+			// iterator insert (iterator position, const value_type& val);
+
+			// template <class InputIterator>
+			// void insert (InputIterator first, InputIterator last);
+
 			void clear() //not done, need to do this for every node in the map
 			{
 				_alloc.destroy(top->data);
