@@ -19,19 +19,22 @@ int             main(void)
 
 	ft::map<int, int>::iterator it = m.begin();
 
+	std::cout << it->first << std::endl;
 	++it;
+	std::cout << it->first << std::endl;
 	++it;
-	// std::cout << it->first;
+	std::cout << it->first << std::endl;
 	++it;
-	// std::cout << it->first;
+	std::cout << it->first << std::endl;
 	++it;
-	// std::cout << it->first;
+	std::cout << it->first << std::endl;
 	++it;
-	std::cout << it->first;
+	std::cout << it->first << std::endl;
 	++it;
+	std::cout << it->first << std::endl;
 	++it;
-	std::cout << it->first;
+	std::cout << it->first << std::endl;
 	++it;
-	std::cout << it->first;
+	std::cout << it->first << std::endl;
 	// m.test();
 }

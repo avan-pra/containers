@@ -20,7 +20,7 @@ namespace ft
 
 		private:
 			typedef		node<value_type> node;
-			node		_ptr;
+			node		*_ptr;
 
 		public:
 			iterator() : _ptr(NULL) { }
@@ -32,12 +32,12 @@ namespace ft
 
 			pointer operator->()
 			{
-				return _ptr.data;
+				return _ptr->data;
 			}
 
 			value_type operator*()
 			{
-				return *(_ptr.data);
+				return *(_ptr->data);
 			}
 			// bool		operator==(const iterator &it) const { return _ptr == it._ptr; }
 			// bool		operator!=(const iterator &it) const { return !(_ptr == it._ptr); }
@@ -45,16 +45,16 @@ namespace ft
 			
 			iterator	&operator++()
 			{
-				if (_ptr.right != NULL)
-					_ptr = getLeftMost(_ptr.right);
+				if (_ptr->right != NULL)
+					_ptr = getLeftMost(_ptr->right);
 				else
 				{
-					while (_ptr.parent != NULL && _ptr.parent->right == &_ptr)
+					while (_ptr->parent != NULL && _ptr->parent->right == _ptr)
 					{
-						_ptr = _ptr.parent;
+						_ptr = _ptr->parent;
 					}
-					std::cout << _ptr.data->first << ":" << _ptr.parent->right->data->first << std::endl;
-					_ptr =_ptr.parent;
+					// std::cout << &_ptr << ":" << _ptr->parent->right << std::endl;
+					_ptr =_ptr->parent;
 					// if (_ptr == _ptr.parent->left)
 					// 	_ptr = _ptr.parent;
 					// else if (true)
@@ -63,6 +63,7 @@ namespace ft
 				return *this;
 			}
 
+			private:
 			node *getLeftMost(node *n)
 			{
 				node *tmp = n;
