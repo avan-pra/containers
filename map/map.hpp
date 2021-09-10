@@ -70,7 +70,8 @@ namespace ft
 			node			*top;
 			node			*lower;
 			node			*upper;
-			node			*dummy;
+			node			*dummy_upper;
+			node			*dummy_lower;
 			size_type		_size;
 
 		public:
@@ -81,7 +82,8 @@ namespace ft
 				top = NULL;
 				lower = NULL;
 				upper = NULL;
-				dummy = new node();
+				dummy_upper = new node();
+				dummy_lower = new node();
 				_size = 0;
 			}
 
@@ -156,7 +158,7 @@ namespace ft
 					{
 						if (_comp(val.first, traversal->data->first))
 						{//goto left
-							if (traversal->left == NULL || traversal->left == dummy)
+							if (traversal->left == NULL || traversal->left == dummy_lower || traversal->left == dummy_upper)
 							{
 								pointer tmp = _alloc.allocate(1);
 								_alloc.construct(tmp, val);
@@ -172,7 +174,7 @@ namespace ft
 						}
 						else if (_comp(traversal->data->first, val.first))
 						{//goto right
-							if (traversal->right == NULL || traversal->right == dummy)
+							if (traversal->right == NULL || traversal->right == dummy_lower || traversal->right == dummy_upper)
 							{
 								pointer tmp = _alloc.allocate(1);
 								_alloc.construct(tmp, val);
@@ -216,16 +218,16 @@ namespace ft
 				lower = getLeftMost(top);
 
 				// // lower = (lower == dummy ? lower = lower->parent : lower);
-				// lower->left = dummy;
-				// dummy->right = lower;
+				lower->left = dummy_lower;
+				dummy_lower->right = lower;
 			}
 
 			void set_upper_bound()
 			{
 				upper = getRightMost(top);
 
-				upper->right = dummy;
-				dummy->parent = upper;
+				upper->right = dummy_upper;
+				dummy_upper->parent = upper;
 				// dummy->left = upper;
 				// dummy->left = upper;
 			}
@@ -235,7 +237,7 @@ namespace ft
 			{
 				node *tmp = n;
 
-				while (tmp->left != NULL && tmp->left != dummy)
+				while (tmp->left != NULL && tmp->left != dummy_lower && tmp->left != dummy_upper)
 					tmp = tmp->left;
 				return tmp;
 			}
@@ -243,7 +245,7 @@ namespace ft
 			{
 				node *tmp = n;
 
-				while (tmp->right != NULL && tmp->right != dummy)
+				while (tmp->right != NULL && tmp->right != dummy_lower && tmp->right != dummy_upper)
 					tmp = tmp->right;
 				return tmp;
 			}
