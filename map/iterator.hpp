@@ -56,6 +56,19 @@ namespace ft
 				return *this;
 			}
 
+			iterator	&operator--()
+			{
+				if (_ptr->left != NULL)
+					_ptr = getRightMost(_ptr->left);
+				else
+				{
+					while (_ptr->parent != NULL && _ptr->parent->left == _ptr)
+						_ptr = _ptr->parent;
+					_ptr =_ptr->parent;
+				}
+				return *this;
+			}
+
 			private:
 			node *getLeftMost(node *n)
 			{
@@ -63,6 +76,14 @@ namespace ft
 
 				while (tmp->left != NULL)
 					tmp = tmp->left;
+				return tmp;
+			}
+			node *getRightMost(node *n)
+			{
+				node *tmp = n;
+
+				while (tmp->right != NULL)
+					tmp = tmp->right;
 				return tmp;
 			}
 
