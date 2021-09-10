@@ -50,15 +50,8 @@ namespace ft
 				else
 				{
 					while (_ptr->parent != NULL && _ptr->parent->right == _ptr)
-					{
 						_ptr = _ptr->parent;
-					}
-					// std::cout << &_ptr << ":" << _ptr->parent->right << std::endl;
 					_ptr =_ptr->parent;
-					// if (_ptr == _ptr.parent->left)
-					// 	_ptr = _ptr.parent;
-					// else if (true)
-					// 	;
 				}
 				return *this;
 			}

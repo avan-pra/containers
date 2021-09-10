@@ -78,6 +78,8 @@ namespace ft
 				_comp = comp;
 				_alloc = alloc;
 				top = NULL;
+				lower = NULL;
+				upper = NULL;
 				_size = 0;
 			}
 
@@ -134,6 +136,7 @@ namespace ft
 					top = new node(tmp);
 					++_size;
 					set_lower_bound();
+					set_upper_bound();
 					return ft::pair<iterator, bool>(iterator(top), true);
 				}
 				else
@@ -151,6 +154,7 @@ namespace ft
 								traversal->left = new node(tmp, traversal);
 								++_size;
 								set_lower_bound();
+								set_upper_bound();
 								return ft::pair<iterator, bool>(iterator(traversal->left), true);
 							}
 							else
@@ -166,6 +170,7 @@ namespace ft
 								traversal->right = new node(tmp, traversal);
 								++_size;
 								set_lower_bound();
+								set_upper_bound();
 								return ft::pair<iterator, bool>(iterator(traversal->right), true);
 							}
 							else
@@ -197,10 +202,24 @@ namespace ft
 			private:
 			void set_lower_bound()
 			{
+				lower = getLeftMost(top);
+			}
+
+			void set_upper_bound()
+			{
 				lower = top;
 
 				while (lower->left != NULL)
 					lower = lower->left;
+			}
+
+			node *getLeftMost(node *n)
+			{
+				node *tmp = n;
+
+				while (tmp->left != NULL)
+					tmp = tmp->left;
+				return tmp;
 			}
 	};
 }
