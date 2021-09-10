@@ -39,7 +39,11 @@ namespace ft
 			{
 				return *(_ptr->data);
 			}
-			// bool		operator==(const iterator &it) const { return _ptr == it._ptr; }
+			bool		operator==(const iterator &it) const
+			{
+				std::cout << _ptr << ":" << it._ptr << std::endl;
+				return _ptr == it._ptr;
+			}
 			// bool		operator!=(const iterator &it) const { return !(_ptr == it._ptr); }
 			// iterator	operator=(const iterator &it) { _ptr = it._ptr; return *this; }
 			

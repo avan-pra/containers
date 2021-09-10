@@ -70,6 +70,7 @@ namespace ft
 			node			*top;
 			node			*lower;
 			node			*upper;
+			node			*dummy;
 			size_type		_size;
 
 		public:
@@ -80,6 +81,7 @@ namespace ft
 				top = NULL;
 				lower = NULL;
 				upper = NULL;
+				dummy = new node();
 				_size = 0;
 			}
 
@@ -110,13 +112,21 @@ namespace ft
 
 			}
 
-      		iterator begin()
+			iterator begin()
 			{
 				return iterator(lower);
 			}
 			const_iterator begin() const
 			{
 				return const_iterator(lower);
+			}
+      		iterator end()
+			{
+				return iterator(upper->right);
+			}
+			const_iterator end() const
+			{
+				return const_iterator(upper->right);
 			}
 
 			void test()
@@ -146,7 +156,7 @@ namespace ft
 					{
 						if (_comp(val.first, traversal->data->first))
 						{//goto left
-							if (traversal->left == NULL)
+							if (traversal->left == NULL || traversal->left == dummy)
 							{
 								pointer tmp = _alloc.allocate(1);
 								_alloc.construct(tmp, val);
@@ -162,7 +172,7 @@ namespace ft
 						}
 						else if (_comp(traversal->data->first, val.first))
 						{//goto right
-							if (traversal->right == NULL)
+							if (traversal->right == NULL || traversal->right == dummy)
 							{
 								pointer tmp = _alloc.allocate(1);
 								_alloc.construct(tmp, val);
@@ -202,23 +212,39 @@ namespace ft
 			private:
 			void set_lower_bound()
 			{
+				// std::cout << "low" << std::endl;
 				lower = getLeftMost(top);
+
+				// // lower = (lower == dummy ? lower = lower->parent : lower);
+				// lower->left = dummy;
+				// dummy->right = lower;
 			}
 
 			void set_upper_bound()
 			{
-				lower = top;
+				upper = getRightMost(top);
 
-				while (lower->left != NULL)
-					lower = lower->left;
+				upper->right = dummy;
+				dummy->parent = upper;
+				// dummy->left = upper;
+				// dummy->left = upper;
 			}
 
+			private:
 			node *getLeftMost(node *n)
 			{
 				node *tmp = n;
 
-				while (tmp->left != NULL)
+				while (tmp->left != NULL && tmp->left != dummy)
 					tmp = tmp->left;
+				return tmp;
+			}
+			node *getRightMost(node *n)
+			{
+				node *tmp = n;
+
+				while (tmp->right != NULL && tmp->right != dummy)
+					tmp = tmp->right;
 				return tmp;
 			}
 	};

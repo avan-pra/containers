@@ -14,9 +14,9 @@ struct node
 		struct node	*right;
 		struct node	*parent;
 
-		node();
-		node(const pointer val = value_type()) : data(val), left(NULL), right(NULL), parent(NULL) { }
-		node(const value_type &val = value_type()) : data(val), left(NULL), right(NULL), parent(NULL) { }
+		node() : data(NULL), left(NULL), right(NULL), parent(NULL) { }
+		node(const pointer val) : data(val), left(NULL), right(NULL), parent(NULL) { }
+		node(const value_type &val) : data(val), left(NULL), right(NULL), parent(NULL) { }
 		~node() { }
 		node(const node *node) : data(node->data), left(node->left), right(node->right), parent(node->parent) { }
 		node(const node &node) : data(node.data), left(node.left), right(node.right), parent(node.parent) { }
