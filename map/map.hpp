@@ -13,6 +13,9 @@
 # include "pair.hpp"
 # include "node.hpp"
 
+# define LOWER 0
+# define UPPER 1
+
 class test1212
 {
 	public:
@@ -70,8 +73,7 @@ namespace ft
 			node			*top;
 			node			*lower;
 			node			*upper;
-			node			*dummy_upper;
-			node			*dummy_lower;
+			node			*dummy[2];
 			size_type		_size;
 
 		public:
@@ -82,8 +84,8 @@ namespace ft
 				top = NULL;
 				lower = NULL;
 				upper = NULL;
-				dummy_upper = new node();
-				dummy_lower = new node();
+				dummy[LOWER] = new node();
+				dummy[UPPER] = new node();
 				_size = 0;
 			}
 
@@ -158,7 +160,7 @@ namespace ft
 					{
 						if (_comp(val.first, traversal->data->first))
 						{//goto left
-							if (traversal->left == NULL || traversal->left == dummy_lower || traversal->left == dummy_upper)
+							if (traversal->left == NULL || traversal->left == dummy[LOWER] || traversal->left == dummy[UPPER])
 							{
 								pointer tmp = _alloc.allocate(1);
 								_alloc.construct(tmp, val);
@@ -174,7 +176,7 @@ namespace ft
 						}
 						else if (_comp(traversal->data->first, val.first))
 						{//goto right
-							if (traversal->right == NULL || traversal->right == dummy_lower || traversal->right == dummy_upper)
+							if (traversal->right == NULL || traversal->right == dummy[LOWER] || traversal->right == dummy[UPPER])
 							{
 								pointer tmp = _alloc.allocate(1);
 								_alloc.construct(tmp, val);
@@ -218,16 +220,16 @@ namespace ft
 				lower = getLeftMost(top);
 
 				// // lower = (lower == dummy ? lower = lower->parent : lower);
-				lower->left = dummy_lower;
-				dummy_lower->parent = lower;
+				lower->left = dummy[LOWER];
+				dummy[LOWER]->parent = lower;
 			}
 
 			void set_upper_bound()
 			{
 				upper = getRightMost(top);
 
-				upper->right = dummy_upper;
-				dummy_upper->parent = upper;
+				upper->right = dummy[UPPER];
+				dummy[UPPER]->parent = upper;
 				// dummy->left = upper;
 				// dummy->left = upper;
 			}
@@ -237,7 +239,7 @@ namespace ft
 			{
 				node *tmp = n;
 
-				while (tmp->left != NULL && tmp->left != dummy_lower && tmp->left != dummy_upper)
+				while (tmp->left != NULL && tmp->left != dummy[LOWER] && tmp->left != dummy[UPPER])
 					tmp = tmp->left;
 				return tmp;
 			}
@@ -245,11 +247,14 @@ namespace ft
 			{
 				node *tmp = n;
 
-				while (tmp->right != NULL && tmp->right != dummy_lower && tmp->right != dummy_upper)
+				while (tmp->right != NULL && tmp->right != dummy[LOWER] && tmp->right != dummy[UPPER])
 					tmp = tmp->right;
 				return tmp;
 			}
 	};
 }
+
+#undef LOWER
+#undef UPPER
 
 #endif
