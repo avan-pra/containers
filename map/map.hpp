@@ -219,7 +219,7 @@ namespace ft
 
 				// // lower = (lower == dummy ? lower = lower->parent : lower);
 				lower->left = dummy_lower;
-				dummy_lower->right = lower;
+				dummy_lower->parent = lower;
 			}
 
 			void set_upper_bound()
