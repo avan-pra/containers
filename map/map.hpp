@@ -84,8 +84,10 @@ namespace ft
 				top = NULL;
 				lower = NULL;
 				upper = NULL;
-				dummy[LOWER] = new node();
-				dummy[UPPER] = new node();
+				dummy[LOWER] =	typename allocator_type::template rebind<node>::other(_alloc).allocate(1, (node *)0);
+								typename allocator_type::template rebind<node>::other(_alloc).construct(dummy[LOWER]);
+				dummy[UPPER] =	typename allocator_type::template rebind<node>::other(_alloc).allocate(1, (node *)0);
+								typename allocator_type::template rebind<node>::other(_alloc).construct(dummy[UPPER]);
 				_size = 0;
 			}
 
@@ -147,7 +149,8 @@ namespace ft
 					pointer tmp = _alloc.allocate(1);
 					_alloc.construct(tmp, val);
 
-					top = new node(tmp);
+					top = typename allocator_type::template rebind<node>::other(_alloc).allocate(1, (node *)0);
+					typename allocator_type::template rebind<node>::other(_alloc).construct(top, tmp);
 					++_size;
 					set_lower_bound();
 					set_upper_bound();
@@ -165,7 +168,8 @@ namespace ft
 								pointer tmp = _alloc.allocate(1);
 								_alloc.construct(tmp, val);
 
-								traversal->left = new node(tmp, traversal);
+								traversal->left = typename allocator_type::template rebind<node>::other(_alloc).allocate(1, (node *)0);
+								typename allocator_type::template rebind<node>::other(_alloc).construct(traversal->left, tmp, traversal);
 								++_size;
 								set_lower_bound();
 								set_upper_bound();
@@ -181,7 +185,8 @@ namespace ft
 								pointer tmp = _alloc.allocate(1);
 								_alloc.construct(tmp, val);
 
-								traversal->right = new node(tmp, traversal);
+								traversal->right = typename allocator_type::template rebind<node>::other(_alloc).allocate(1, (node *)0);
+								typename allocator_type::template rebind<node>::other(_alloc).construct(traversal->right, tmp, traversal);
 								++_size;
 								set_lower_bound();
 								set_upper_bound();
