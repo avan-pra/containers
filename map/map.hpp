@@ -94,13 +94,10 @@ namespace ft
 			// template <class InputIterator>
   			// map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type());
 
-			map(const map& x)
-			{
-				_comp = x._comp;
-				_alloc = x._alloc;
-				_size = x._size;
-				// parse tt la map et dupliquer ?
-			}
+			// map(const map& x)
+			// {
+
+			// }
 
 			~map()
 			{
@@ -111,11 +108,6 @@ namespace ft
 			{
 				//keep allocator
 				//copy remote map
-			}
-
-			mapped_type& operator[](const key_type& k)
-			{
-
 			}
 
 			iterator begin()
@@ -134,12 +126,29 @@ namespace ft
 			{
 				return const_iterator(upper->right);
 			}
+			
+			/*
+			** reverse iterator
+			*/
 
-			void test()
+			bool empty() const
 			{
-				// std::cout << top->left->right->left->data->first << std::endl;
-				// std::cout << top->right->data->first << std::endl;
-				// std::cout << top->left->data->second << std::endl;
+				return _size == 0;
+			}
+
+			size_type size() const
+			{
+				return _size;
+			}
+
+			size_type max_size() const //pas sur de celle la mdr
+			{
+				return (ULONG_MAX / (sizeof(node) + sizeof(value_type)));
+			}
+
+			mapped_type& operator[](const key_type& k)
+			{
+
 			}
 
 			ft::pair<iterator, bool> insert(const value_type& val)
