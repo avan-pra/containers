@@ -210,10 +210,20 @@ namespace ft
 				}
 			}
 
-			// iterator insert (iterator position, const value_type& val);
+			iterator insert(iterator position, const value_type& val) //mdr nn sah
+			{
+				return insert(val).first;
+			}
 
-			// template <class InputIterator>
-			// void insert (InputIterator first, InputIterator last);
+			template <class InputIterator>
+			void insert (InputIterator first, InputIterator last)
+			{
+				while (first != last)
+				{
+					insert(*first);
+					++first;
+				}
+			}
 
 			void clear() //not done, need to do this for every node in the map
 			{
