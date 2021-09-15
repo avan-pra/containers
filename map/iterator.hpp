@@ -20,7 +20,9 @@ namespace ft
 
 		private:
 			typedef		node<value_type> node;
-			node		*_ptr;
+
+		public:
+			node	*_ptr;
 
 		public:
 			iterator() : _ptr(NULL) { }
@@ -45,7 +47,7 @@ namespace ft
 			}
 			// bool		operator!=(const iterator &it) const { return !(_ptr == it._ptr); }
 			// iterator	operator=(const iterator &it) { _ptr = it._ptr; return *this; }
-			
+
 			iterator	&operator++()
 			{
 				if (_ptr->right != NULL)
@@ -72,7 +74,7 @@ namespace ft
 				return *this;
 			}
 
-			private:
+		private:
 			node *getLeftMost(node *n)
 			{
 				node *tmp = n;
