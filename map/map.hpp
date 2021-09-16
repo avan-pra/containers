@@ -227,9 +227,15 @@ namespace ft
 
 			void erase(iterator position)	
 			{
-				node *to = position._ptr;
+				node *er = position._ptr;
+
+				if (is_null(er->right) && is_null(er->left));
+					erase_leaf(er);
+
+
+				set_bound();
 			}
-			
+
 			// size_type erase (const key_type& k);
 
 			// void erase (iterator first, iterator last);
@@ -274,6 +280,19 @@ namespace ft
 			}
 
 			private:
+			bool is_null(node *n)
+			{
+				if (n == NULL || n == dummy[LOWER] || n == dummy[UPPER])
+					return true;
+				return false;
+			}
+
+			void set_bound()
+			{
+				set_lower_bound();
+				set_upper_bound();
+			}
+
 			void set_lower_bound()
 			{
 				// std::cout << "low" << std::endl;
