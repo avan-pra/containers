@@ -172,7 +172,7 @@ namespace ft
 					{
 						if (_comp(val.first, traversal->data->first))
 						{//goto left
-							if (traversal->left == NULL || traversal->left == dummy[LOWER] || traversal->left == dummy[UPPER])
+							if (is_null(traversal->left))
 							{
 								pointer tmp = _alloc.allocate(1);
 								_alloc.construct(tmp, val);
@@ -189,7 +189,7 @@ namespace ft
 						}
 						else if (_comp(traversal->data->first, val.first))
 						{//goto right
-							if (traversal->right == NULL || traversal->right == dummy[LOWER] || traversal->right == dummy[UPPER])
+							if (is_null(traversal->right))
 							{
 								pointer tmp = _alloc.allocate(1);
 								_alloc.construct(tmp, val);
@@ -229,11 +229,15 @@ namespace ft
 			{
 				node *er = position._ptr;
 
-				if (is_null(er->right) && is_null(er->left));
+				if (is_null(er->right) && is_null(er->left))
 					erase_leaf(er);
-
-
+				if ((is_null(er->right) && !is_null(er->left)) || (!is_null(er->right) && is_null(er->left)))
+					erase_single(er);
+				if (!is_null(er->right) && !is_null(er->left))
+					erase_double(er);
+				--_size;
 				set_bound();
+				std::cout << "top: " << top->data->first << std::endl;
 			}
 
 			// size_type erase (const key_type& k);
@@ -280,6 +284,50 @@ namespace ft
 			}
 
 			private:
+			void erase_double(node *n)
+			{
+				node *traversal = n->left;
+
+				traversal = getRightMost(traversal);
+				utils::swap(traversal->data, n->data);
+				if (is_null(traversal->right) && is_null(traversal->left))
+					erase_leaf(traversal);
+				else if ((is_null(traversal->right) && !is_null(traversal->left)) || (!is_null(traversal->right) && is_null(traversal->left)))
+					erase_single(traversal);
+			}
+
+			void erase_single(node *n)
+			{
+				node *attach;
+
+				if (is_null(n->left))
+					attach = n->right;
+				else if (is_null(n->right))
+					attach = n->left;
+				if (n == top)
+					top = attach;
+				n->parent->right = (n->parent->right == n) ? attach : n->parent->right;
+				n->parent->left = (n->parent->left == n) ? attach : n->parent->left;
+ 				attach->parent = n->parent;
+				_alloc.destroy(n->data);
+				_alloc.deallocate(n->data, 1);
+				typename allocator_type::template rebind<node>::other(_alloc).destroy(n);
+				typename allocator_type::template rebind<node>::other(_alloc).deallocate(n, 1);
+			}
+
+			void erase_leaf(node *n)
+			{
+				if (n->parent != NULL)
+				{
+					n->parent->right = (n->parent->right == n) ? NULL : n->parent->right;
+					n->parent->left = (n->parent->left == n) ? NULL : n->parent->left;
+				}
+				_alloc.destroy(n->data);
+				_alloc.deallocate(n->data, 1);
+				typename allocator_type::template rebind<node>::other(_alloc).destroy(n);
+				typename allocator_type::template rebind<node>::other(_alloc).deallocate(n, 1);
+			}
+
 			bool is_null(node *n)
 			{
 				if (n == NULL || n == dummy[LOWER] || n == dummy[UPPER])
