@@ -101,7 +101,11 @@ namespace ft
 
 			~map()
 			{
-				//clear();
+				clear();
+				typename allocator_type::template rebind<node>::other(_alloc).destroy(dummy[LOWER]);
+				typename allocator_type::template rebind<node>::other(_alloc).deallocate(dummy[LOWER], 1);
+				typename allocator_type::template rebind<node>::other(_alloc).destroy(dummy[UPPER]);
+				typename allocator_type::template rebind<node>::other(_alloc).deallocate(dummy[UPPER], 1);
 			}
 
 			map& operator=(const map& x)
@@ -237,12 +241,31 @@ namespace ft
 					erase_double(er);
 				--_size;
 				set_bound();
-				std::cout << "top: " << top->data->first << std::endl;
 			}
 
-			// size_type erase (const key_type& k);
+			size_type erase(const key_type& k)
+			{
+				iterator it = find(k);
 
-			// void erase (iterator first, iterator last);
+				if (it == end())
+					return 0;
+				else
+					erase(it);
+				return 1;
+				// return (find(k) != end() && erase(find(k)) ? 1 : 0);
+			}
+
+			void erase(iterator first, iterator last)
+			{
+				iterator it;
+
+				while (first != last)
+				{
+					it = first;
+					++first;
+					erase(it);
+				}
+			}
 
 			void swap (map& x)
 			{
@@ -251,9 +274,7 @@ namespace ft
 
 			void clear() //not done, need to do this for every node in the map
 			{
-				// _alloc.destroy(top->data);
-				// _alloc.deallocate(top->data, 1);
-				// delete top;
+				erase(begin(), end());
 			}
 
 			iterator find(const key_type& k)
@@ -306,9 +327,12 @@ namespace ft
 					attach = n->left;
 				if (n == top)
 					top = attach;
-				n->parent->right = (n->parent->right == n) ? attach : n->parent->right;
-				n->parent->left = (n->parent->left == n) ? attach : n->parent->left;
- 				attach->parent = n->parent;
+				else
+				{
+					n->parent->right = (n->parent->right == n) ? attach : n->parent->right;
+					n->parent->left = (n->parent->left == n) ? attach : n->parent->left;
+				}
+				attach->parent = n->parent;
 				_alloc.destroy(n->data);
 				_alloc.deallocate(n->data, 1);
 				typename allocator_type::template rebind<node>::other(_alloc).destroy(n);
@@ -366,7 +390,7 @@ namespace ft
 			{
 				node *tmp = n;
 
-				while (tmp->left != NULL && tmp->left != dummy[LOWER] && tmp->left != dummy[UPPER])
+				while (!is_null(tmp->left))
 					tmp = tmp->left;
 				return tmp;
 			}
@@ -374,7 +398,7 @@ namespace ft
 			{
 				node *tmp = n;
 
-				while (tmp->right != NULL && tmp->right != dummy[LOWER] && tmp->right != dummy[UPPER])
+				while (!is_null(tmp->right))
 					tmp = tmp->right;
 				return tmp;
 			}
