@@ -227,7 +227,7 @@ namespace ft
 
 			void erase(iterator position)	
 			{
-
+				node *to = position._ptr;
 			}
 			
 			// size_type erase (const key_type& k);
@@ -245,6 +245,28 @@ namespace ft
 				// _alloc.deallocate(top->data, 1);
 				// delete top;
 			}
+
+			iterator find(const key_type& k)
+			{
+				node *traversal = top;
+
+				while (1)
+				{
+					if (traversal == NULL || traversal == dummy[LOWER] || traversal == dummy[UPPER])
+						return iterator(upper->right);
+					if (_comp(k, traversal->data->first))
+					{//goto left
+						traversal = traversal->left;
+					}
+					else if (_comp(traversal->data->first, k))
+					{//goto right
+						traversal = traversal->right;
+					}
+					else //we found it
+						return iterator(traversal);
+				}
+			}
+			// const_iterator find (const key_type& k) const;
 
 			allocator_type get_allocator() const
 			{
