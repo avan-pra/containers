@@ -148,7 +148,7 @@ namespace ft
 
 			mapped_type& operator[](const key_type& k)
 			{
-
+				return insert(ft::make_pair(k, mapped_type())).first->second;
 			}
 
 			ft::pair<iterator, bool> insert(const value_type& val)
@@ -225,11 +225,25 @@ namespace ft
 				}
 			}
 
+			void erase(iterator position)	
+			{
+
+			}
+			
+			// size_type erase (const key_type& k);
+
+			// void erase (iterator first, iterator last);
+
+			void swap (map& x)
+			{
+				// TODO
+			}
+
 			void clear() //not done, need to do this for every node in the map
 			{
-				_alloc.destroy(top->data);
-				_alloc.deallocate(top->data, 1);
-				delete top;
+				// _alloc.destroy(top->data);
+				// _alloc.deallocate(top->data, 1);
+				// delete top;
 			}
 
 			allocator_type get_allocator() const
