@@ -45,7 +45,7 @@ namespace ft
 			{
 				return (_ptr == it._ptr);
 			}
-			// bool		operator!=(const iterator &it) const { return !(_ptr == it._ptr); }
+			bool		operator!=(const iterator &it) const { return !(_ptr == it._ptr); }
 			// iterator	operator=(const iterator &it) { _ptr = it._ptr; return *this; }
 
 			iterator	&operator++()
