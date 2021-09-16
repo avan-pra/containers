@@ -61,6 +61,15 @@ namespace ft
 				return *this;
 			}
 
+			iterator	operator++(int f)
+			{
+				iterator f1(*this);
+
+				(void)f;
+				++(*this);
+				return (f1);
+			}
+
 			iterator	&operator--()
 			{
 				if (_ptr->left != NULL)
