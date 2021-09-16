@@ -82,12 +82,11 @@ namespace ft
 				_comp = comp;
 				_alloc = alloc;
 				top = NULL;
-				lower = NULL;
-				upper = NULL;
-				dummy[LOWER] =	typename allocator_type::template rebind<node>::other(_alloc).allocate(1, (node *)0);
-								typename allocator_type::template rebind<node>::other(_alloc).construct(dummy[LOWER]);
 				dummy[UPPER] =	typename allocator_type::template rebind<node>::other(_alloc).allocate(1, (node *)0);
 								typename allocator_type::template rebind<node>::other(_alloc).construct(dummy[UPPER]);
+				dummy[LOWER] =	dummy[UPPER];
+				lower = dummy[UPPER];
+				upper = dummy[UPPER];
 				_size = 0;
 			}
 
@@ -102,8 +101,6 @@ namespace ft
 			~map()
 			{
 				clear();
-				typename allocator_type::template rebind<node>::other(_alloc).destroy(dummy[LOWER]);
-				typename allocator_type::template rebind<node>::other(_alloc).deallocate(dummy[LOWER], 1);
 				typename allocator_type::template rebind<node>::other(_alloc).destroy(dummy[UPPER]);
 				typename allocator_type::template rebind<node>::other(_alloc).deallocate(dummy[UPPER], 1);
 			}
@@ -124,11 +121,11 @@ namespace ft
 			}
       		iterator end()
 			{
-				return iterator(upper->right);
+				return iterator(dummy[UPPER]);
 			}
 			const_iterator end() const
 			{
-				return const_iterator(upper->right);
+				return const_iterator(dummy[UPPER]);
 			}
 			
 			/*
@@ -164,9 +161,8 @@ namespace ft
 
 					top = typename allocator_type::template rebind<node>::other(_alloc).allocate(1, (node *)0);
 					typename allocator_type::template rebind<node>::other(_alloc).construct(top, tmp);
+					set_bound('i');
 					++_size;
-					set_lower_bound();
-					set_upper_bound();
 					return ft::pair<iterator, bool>(iterator(top), true);
 				}
 				else
@@ -183,9 +179,8 @@ namespace ft
 
 								traversal->left = typename allocator_type::template rebind<node>::other(_alloc).allocate(1, (node *)0);
 								typename allocator_type::template rebind<node>::other(_alloc).construct(traversal->left, tmp, traversal);
+								set_bound('i');
 								++_size;
-								set_lower_bound();
-								set_upper_bound();
 								return ft::pair<iterator, bool>(iterator(traversal->left), true);
 							}
 							else
@@ -200,9 +195,8 @@ namespace ft
 
 								traversal->right = typename allocator_type::template rebind<node>::other(_alloc).allocate(1, (node *)0);
 								typename allocator_type::template rebind<node>::other(_alloc).construct(traversal->right, tmp, traversal);
+								set_bound('i');
 								++_size;
-								set_lower_bound();
-								set_upper_bound();
 								return ft::pair<iterator, bool>(iterator(traversal->right), true);
 							}
 							else
@@ -240,7 +234,7 @@ namespace ft
 				if (!is_null(er->right) && !is_null(er->left))
 					erase_double(er);
 				--_size;
-				set_bound();
+				set_bound('e');
 			}
 
 			size_type erase(const key_type& k)
@@ -359,10 +353,29 @@ namespace ft
 				return false;
 			}
 
-			void set_bound()
+			void set_bound(char c)
 			{
-				set_lower_bound();
-				set_upper_bound();
+				if (c == 'i' && _size == 0)
+				{
+					dummy[LOWER] = typename allocator_type::template rebind<node>::other(_alloc).allocate(1, (node *)0);
+					typename allocator_type::template rebind<node>::other(_alloc).construct(dummy[LOWER]);
+					set_lower_bound();
+					set_upper_bound();
+				}
+				else if (c == 'e' && _size == 0)
+				{
+					set_upper_bound();
+					typename allocator_type::template rebind<node>::other(_alloc).destroy(dummy[LOWER]);
+					typename allocator_type::template rebind<node>::other(_alloc).deallocate(dummy[LOWER], 1);
+					lower = dummy[UPPER];
+					upper = dummy[UPPER];
+					dummy[LOWER] = dummy[UPPER];
+				}
+				else
+				{
+					set_lower_bound();
+					set_upper_bound();
+				}
 			}
 
 			void set_lower_bound()
