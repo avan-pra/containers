@@ -384,7 +384,23 @@ namespace ft
 				}
 				return iterator(result);
 			}
-			// const_iterator lower_bound (const key_type& k) const
+			const_iterator lower_bound (const key_type& k) const
+			{
+				node *traversal = top;
+				node *result;
+
+				while (!is_null(traversal))
+				{
+					if (!_comp(traversal->data->first, k))
+					{
+						result = traversal;
+						traversal = traversal->left;
+					}
+					else
+						traversal = traversal->right;
+				}
+				return const_iterator(result);
+			}
 
 			iterator upper_bound(const key_type& k)
 			{
@@ -403,7 +419,23 @@ namespace ft
 				}
 				return iterator(result);
 			}
-			// const_iterator upper_bound (const key_type& k) const;
+			const_iterator upper_bound (const key_type& k) const
+			{
+				node *traversal = top;
+				node *result;
+
+				while (!is_null(traversal))
+				{
+					if (_comp(k, traversal->data->first))
+					{
+						result = traversal;
+						traversal = traversal->left;
+					}
+					else
+						traversal = traversal->right;
+				}
+				return const_iterator(result);
+			}
 
 			allocator_type get_allocator() const
 			{
