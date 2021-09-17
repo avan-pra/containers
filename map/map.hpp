@@ -167,9 +167,22 @@ namespace ft
 				return const_iterator(dummy[UPPER]);
 			}
 			
-			/*
-			** reverse iterator
-			*/
+			reverse_iterator rbegin()
+			{
+				return reverse_iterator(upper);
+			}
+			const_reverse_iterator rbegin() const
+			{
+				return const_reverse_iterator(upper);
+			}
+			reverse_iterator rend()
+			{
+				return reverse_iterator(dummy[LOWER]);
+			}
+			const_reverse_iterator rend() const
+			{
+				return const_reverse_iterator(dummy[LOWER]);
+			}
 
 			bool empty() const
 			{

@@ -1,5 +1,5 @@
-#ifndef VECTOR_ITERATOR_HPP
-# define VECTOR_ITERATOR_HPP
+#ifndef MAP_ITERATOR_HPP
+# define MAP_ITERATOR_HPP
 
 # include "../utils/traits.hpp"
 # include "node.hpp"
@@ -31,7 +31,7 @@ namespace ft
 			iterator(iterator *other): _ptr(other->_ptr) { }
 			iterator(const typename Container::iterator &it) : _ptr(it._ptr) { }
 			iterator(const typename Container::const_iterator &it) : _ptr(it._ptr) { }
-			
+
 			iterator	operator=(const iterator &it) { _ptr = it._ptr; return *this; }
 			
 			bool		operator==(const iterator &it) const
