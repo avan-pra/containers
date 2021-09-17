@@ -367,7 +367,7 @@ namespace ft
 				return (find(k) != end() ? 1 : 0);
 			}
 
-			iterator lower_bound (const key_type& k)
+			iterator lower_bound(const key_type& k)
 			{
 				node *traversal = top;
 				node *result;
@@ -386,7 +386,7 @@ namespace ft
 			}
 			// const_iterator lower_bound (const key_type& k) const
 
-			iterator upper_bound (const key_type& k)
+			iterator upper_bound(const key_type& k)
 			{
 				node *traversal = top;
 				node *result;
