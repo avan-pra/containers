@@ -369,12 +369,41 @@ namespace ft
 
 			iterator lower_bound (const key_type& k)
 			{
-				return (find(k) != end() ? ++(find(k)) : end());
+				node *traversal = top;
+				node *result;
+
+				while (!is_null(traversal))
+				{
+					if (!_comp(traversal->data->first, k))
+					{
+						result = traversal;
+						traversal = traversal->left;
+					}
+					else
+						traversal = traversal->right;
+				}
+				return iterator(result);
 			}
-			const_iterator lower_bound (const key_type& k) const
+			// const_iterator lower_bound (const key_type& k) const
+
+			iterator upper_bound (const key_type& k)
 			{
-				return (find(k) != end() ? ++(find(k)) : end());
+				node *traversal = top;
+				node *result;
+
+				while (!is_null(traversal))
+				{
+					if (_comp(k, traversal->data->first))
+					{
+						result = traversal;
+						traversal = traversal->left;
+					}
+					else
+						traversal = traversal->right;
+				}
+				return iterator(result);
 			}
+			// const_iterator upper_bound (const key_type& k) const;
 
 			allocator_type get_allocator() const
 			{
