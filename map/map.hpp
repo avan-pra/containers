@@ -437,6 +437,16 @@ namespace ft
 				return const_iterator(result);
 			}
 
+			pair<const_iterator,const_iterator> equal_range (const key_type& k) const
+			{
+				return ft::make_pair(lower_bound(k), upper_bound(k));
+			}
+
+			pair<iterator,iterator>             equal_range (const key_type& k)
+			{
+				return ft::make_pair(lower_bound(k), upper_bound(k));
+			}
+
 			allocator_type get_allocator() const
 			{
 				return _alloc;
