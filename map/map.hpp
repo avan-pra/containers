@@ -90,13 +90,45 @@ namespace ft
 				_size = 0;
 			}
 
-			// template <class InputIterator>
-  			// map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type());
+			template <class InputIterator>
+  			map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
+			{
+				_comp = comp;
+				_alloc = alloc;
+				top = NULL;
+				dummy[UPPER] =	typename allocator_type::template rebind<node>::other(_alloc).allocate(1, (node *)0);
+								typename allocator_type::template rebind<node>::other(_alloc).construct(dummy[UPPER]);
+				dummy[LOWER] =	dummy[UPPER];
+				lower = dummy[UPPER];
+				upper = dummy[UPPER];
+				_size = 0;
+				while (first != last)
+				{
+					insert(*first);
+					++first;
+				}
+			}
 
-			// map(const map& x)
-			// {
+			map(const map& x)
+			{
+				_comp = x._comp;
+				_alloc = x._alloc;
+				top = NULL;
+				dummy[UPPER] =	typename allocator_type::template rebind<node>::other(_alloc).allocate(1, (node *)0);
+								typename allocator_type::template rebind<node>::other(_alloc).construct(dummy[UPPER]);
+				dummy[LOWER] =	dummy[UPPER];
+				lower = dummy[UPPER];
+				upper = dummy[UPPER];
+				_size = 0;
 
-			// }
+				iterator first = x.begin();
+				iterator last = x.end();
+				while (first != last)
+				{
+					insert(*first);
+					++first;
+				}
+			}
 
 			~map()
 			{
@@ -107,8 +139,15 @@ namespace ft
 
 			map& operator=(const map& x)
 			{
-				//keep allocator
-				//copy remote map
+				clear();
+
+				iterator first = x.begin();
+				iterator last = x.end();
+				while (first != last)
+				{
+					insert(*first);
+					++first;
+				}
 			}
 
 			iterator begin()
@@ -263,12 +302,22 @@ namespace ft
 
 			void swap (map& x)
 			{
-				// TODO
+				utils::swap(*this, x);
 			}
 
 			void clear() //not done, need to do this for every node in the map
 			{
 				erase(begin(), end());
+			}
+
+			key_compare key_comp() const
+			{
+				return _comp;
+			}
+
+			value_compare value_comp() const
+			{
+				return value_compare();
 			}
 
 			iterator find(const key_type& k)
@@ -277,8 +326,8 @@ namespace ft
 
 				while (1)
 				{
-					if (traversal == NULL || traversal == dummy[LOWER] || traversal == dummy[UPPER])
-						return iterator(upper->right);
+					if (is_null(traversal))
+						return iterator(dummy[UPPER]);
 					if (_comp(k, traversal->data->first))
 					{//goto left
 						traversal = traversal->left;
@@ -291,7 +340,41 @@ namespace ft
 						return iterator(traversal);
 				}
 			}
-			// const_iterator find (const key_type& k) const;
+
+			const_iterator find (const key_type& k) const
+			{
+				node *traversal = top;
+
+				while (1)
+				{
+					if (is_null(traversal))
+						return const_iterator(dummy[UPPER]);
+					if (_comp(k, traversal->data->first))
+					{//goto left
+						traversal = traversal->left;
+					}
+					else if (_comp(traversal->data->first, k))
+					{//goto right
+						traversal = traversal->right;
+					}
+					else //we found it
+						return const_iterator(traversal);
+				}
+			}
+
+			size_type count (const key_type& k) const
+			{
+				return (find(k) != end() ? 1 : 0);
+			}
+
+			iterator lower_bound (const key_type& k)
+			{
+				return (find(k) != end() ? ++(find(k)) : end());
+			}
+			const_iterator lower_bound (const key_type& k) const
+			{
+				return (find(k) != end() ? ++(find(k)) : end());
+			}
 
 			allocator_type get_allocator() const
 			{
