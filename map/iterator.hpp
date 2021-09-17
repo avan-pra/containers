@@ -19,34 +19,37 @@ namespace ft
 			typedef size_t		size_type;
 
 		private:
-			typedef		node<value_type> node;
+			typedef		node<typename Container::value_type> node;
 
 		public:
 			node	*_ptr;
 
 		public:
 			iterator() : _ptr(NULL) { }
+			~iterator() { }
 			iterator(node *elem): _ptr(elem) { }
 			iterator(iterator *other): _ptr(other->_ptr) { }
-			// iterator(const typename Container::iterator &it) : _ptr(it.operator->()) { }
-			// iterator(const typename Container::const_iterator &it) : _ptr(it.operator->()) { }
-			~iterator() { }
-
-			pointer operator->()
+			iterator(const typename Container::iterator &it) : _ptr(it._ptr) { }
+			iterator(const typename Container::const_iterator &it) : _ptr(it._ptr) { }
+			
+			iterator	operator=(const iterator &it) { _ptr = it._ptr; return *this; }
+			
+			bool		operator==(const iterator &it) const
 			{
-				return _ptr->data;
+				return (_ptr == it._ptr);
 			}
+
+			bool		operator!=(const iterator &it) const { return !(_ptr == it._ptr); }
 
 			value_type operator*()
 			{
 				return *(_ptr->data);
 			}
-			bool		operator==(const iterator &it) const
+
+			pointer operator->()
 			{
-				return (_ptr == it._ptr);
+				return _ptr->data;
 			}
-			bool		operator!=(const iterator &it) const { return !(_ptr == it._ptr); }
-			// iterator	operator=(const iterator &it) { _ptr = it._ptr; return *this; }
 
 			iterator	&operator++()
 			{
@@ -83,6 +86,15 @@ namespace ft
 				return *this;
 			}
 
+			iterator	operator--(int f)
+			{
+				iterator f1(*this);
+
+				(void)f;
+				--(*this);
+				return (f1);
+			}
+
 		private:
 			node *getLeftMost(node *n)
 			{
@@ -100,40 +112,7 @@ namespace ft
 					tmp = tmp->right;
 				return tmp;
 			}
-
-			// iterator	operator++(int f)
-			// {
-			// 	iterator f1(*this);
-
-			// 	(void)f;
-			// 	_ptr++;
-			// 	return (f1);
-			// }
-			// iterator	&operator--() { --_ptr; return (*this); }
-			// iterator	operator--(int f)
-			// {
-			// 	iterator f1(*this);
-
-			// 	(void)f;
-			// 	_ptr--;
-			// 	return (f1);
-			// }
-			// iterator	operator+(const difference_type &n) const { return iterator(_ptr + n); }
-			// iterator	operator-(const difference_type &n) const { return iterator(_ptr - n); }
-			// difference_type	operator+(const iterator &n) const { return _ptr + n._ptr; }
-			// difference_type	operator-(const iterator &n) const { return _ptr - n._ptr; }
-			// bool		operator<(const iterator &n) const { return _ptr < n._ptr; }
-			// bool		operator>(const iterator &n) const { return _ptr > n._ptr; }
-			// bool		operator<=(const iterator &n) const { return _ptr <= n._ptr; }
-			// bool		operator>=(const iterator &n) const { return _ptr >= n._ptr; }
-			// iterator	operator+=(const size_type &n) { _ptr += n; return *this; }
-			// iterator	operator-=(const size_type &n) { _ptr -= n; return *this; }
-			// reference	operator[](const size_type &n) { return *(_ptr + n); }
 	};
-	// template <class T, class V, class I>
-	// iterator<V, T>	operator+(const I &n, const iterator<V, T> &it) { return iterator<V, T>(it.operator->() + n); }
-	// template <class T, class V, class I>
-	// iterator<V, T>	operator-(const I &n, const iterator<V, T> &it) { return iterator<V, T>(it.operator->() - n); }
 }
 
 #endif
