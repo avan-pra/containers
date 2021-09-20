@@ -8,7 +8,7 @@
 # include <sstream>
 # include <iostream>
 # include "../utils/utils.hpp"
-# include "iterator.hpp"
+// # include "iterator.hpp"
 # include "reverse_iterator.hpp"
 
 namespace ft
@@ -23,10 +23,10 @@ namespace ft
 			typedef const T									&const_reference;
 			typedef T										*pointer;
 			typedef const T									*const_pointer;
-			typedef ft::iterator<value_type, vector<value_type> >						iterator;
-			typedef ft::iterator<const value_type, const vector<value_type> >			const_iterator;
-			typedef ft::reverse_iterator<value_type, vector<value_type> >				reverse_iterator;
-			typedef ft::reverse_iterator<const value_type, const vector<value_type> >	const_reverse_iterator;
+			typedef pointer									iterator;
+			typedef const_pointer							const_iterator;
+			typedef typename ft::reverse_iterator<iterator>	reverse_iterator;
+			typedef typename ft::reverse_iterator<const_iterator>	const_reverse_iterator;
 			typedef size_t									size_type;
 			typedef std::ptrdiff_t							difference_type;
 
@@ -241,7 +241,7 @@ namespace ft
 						utils::swap(*it, *(it - n));
 					while (n-- != 0)
 					{
-						_alloc.construct(position.operator->(), L);
+						_alloc.construct(position, L);
 						++_size;
 						++position;
 					}
@@ -263,7 +263,7 @@ namespace ft
 						utils::swap(*it, *(it - n));
 					while (n-- != 0)
 					{
-						_alloc.construct(position.operator->(), *first);
+						_alloc.construct(position, *first);
 						++_size;
 						++position;
 						++first;
@@ -275,7 +275,7 @@ namespace ft
 			{
 				iterator it = position;				
 
-				_alloc.destroy(position.operator->());
+				_alloc.destroy(position);
 				for (; position != end() - 1; ++position)
 					utils::swap(*position, *(position + 1));
 				--_size;
