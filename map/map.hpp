@@ -91,7 +91,7 @@ namespace ft
 			}
 
 			template <class InputIterator>
-  			map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
+  			map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type(), typename utils::enable_if<!utils::is_integral<InputIterator>::value >::type* = 0)
 			{
 				_comp = comp;
 				_alloc = alloc;
@@ -266,7 +266,7 @@ namespace ft
 			}
 
 			template <class InputIterator>
-			void insert (InputIterator first, InputIterator last)
+			void insert (InputIterator first, InputIterator last, typename utils::enable_if<!utils::is_integral<InputIterator>::value >::type* = 0)
 			{
 				while (first != last)
 				{
@@ -301,7 +301,7 @@ namespace ft
 				// return (find(k) != end() && erase(find(k)) ? 1 : 0);
 			}
 
-			void erase(iterator first, iterator last)
+			void erase(iterator first, iterator last, typename utils::enable_if<!utils::is_integral<InputIterator>::value >::type* = 0)
 			{
 				iterator it;
 
