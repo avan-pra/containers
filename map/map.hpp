@@ -29,14 +29,14 @@ namespace ft
 			class Key,
 			class T,
 			class Compare = std::less<Key>,
-			class Alloc = std::allocator<pair<const Key,T> >    // map::allocator_type 
+			class Alloc = std::allocator<ft::pair<const Key,T> >    // map::allocator_type 
 			>
 	class map
 	{
 		public:
 			typedef Key									key_type;
 			typedef T									mapped_type;
-			typedef pair<const key_type, mapped_type>	value_type;
+			typedef ft::pair<const key_type, mapped_type>	value_type;
 			typedef Compare								key_compare;
 			class value_compare : public std::binary_function<value_type, value_type, bool>
 			{
@@ -49,7 +49,6 @@ namespace ft
 					typedef value_type first_argument_type;
 					typedef value_type second_argument_type;
 					bool operator()(const value_type &a, const value_type &b) const { return comp(a.first, b.first); }
-				
 			};
 			typedef Alloc								allocator_type;
 			typedef value_type							&reference;
@@ -57,14 +56,13 @@ namespace ft
 			typedef value_type							*pointer;
 			typedef const value_type					*const_pointer;
 
-			typedef ft::iterator<value_type, map<key_type, mapped_type> >						iterator;
-			typedef ft::iterator<const value_type, const map<key_type, mapped_type> >			const_iterator;
-			typedef ft::reverse_iterator<value_type, map<key_type, mapped_type> >				reverse_iterator;
-			typedef ft::reverse_iterator<const value_type, const map<key_type, mapped_type> >	const_reverse_iterator;
+			typedef ft::iterator<value_type, map<key_type, mapped_type> >				iterator;
+			typedef ft::iterator<const value_type, const map<key_type, mapped_type> >	const_iterator;
+			typedef ft::reverse_iterator<iterator>										reverse_iterator;
+			typedef ft::reverse_iterator<const_iterator>								const_reverse_iterator;
 
 			typedef ptrdiff_t							difference_type;
 			typedef size_t								size_type;
-
 
 		private:
 			typedef	node<value_type> node;
@@ -301,7 +299,7 @@ namespace ft
 				// return (find(k) != end() && erase(find(k)) ? 1 : 0);
 			}
 
-			void erase(iterator first, iterator last, typename utils::enable_if<!utils::is_integral<InputIterator>::value >::type* = 0)
+			void erase(iterator first, iterator last)
 			{
 				iterator it;
 

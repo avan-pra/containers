@@ -8,7 +8,7 @@ namespace ft
 {
 	template <class T, class Container, class Distance = ptrdiff_t,
 		  class Pointer = T*, class Reference = T&, class Category = traits::bidirectional_iterator_tag>
-	struct iterator : public traits::bidirectional_iterator_tag
+	struct iterator
 	{
 		public:
 			typedef T			value_type;
@@ -17,18 +17,20 @@ namespace ft
 			typedef Reference	reference;
 			typedef Category	iterator_category;
 			typedef size_t		size_type;
+			typedef	Container	container_type;		//new shit
 
 		private:
 			typedef		node<typename Container::value_type> node;
 
 		public:
 			node	*_ptr;
-
+ 
 		public:
 			iterator() : _ptr(NULL) { }
 			~iterator() { }
 			iterator(node *elem): _ptr(elem) { }
-			iterator(iterator *other): _ptr(other->_ptr) { }
+			// iterator(iterator *other): _ptr(other->_ptr) { }
+
 			iterator(const typename Container::iterator &it) : _ptr(it._ptr) { }
 			iterator(const typename Container::const_iterator &it) : _ptr(it._ptr) { }
 

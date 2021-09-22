@@ -6,20 +6,21 @@
 
 namespace ft
 {
-	template <class T, class Container, class Distance = ptrdiff_t,
-		  class Pointer = T*, class Reference = T&, class Category = traits::bidirectional_iterator_tag>
-	struct reverse_iterator : public traits::bidirectional_iterator_tag
+	template <class Iterator>
+	struct reverse_iterator
 	{
 		public:
-			typedef T			value_type;
-			typedef Distance	difference_type;
-			typedef Pointer  	pointer;
-			typedef Reference	reference;
-			typedef Category	iterator_category;
+			typedef Iterator iterator_type;
+			typedef typename traits::iterator_traits<Iterator>::iterator_category	iterator_category;
+			typedef typename traits::iterator_traits<Iterator>::value_type			value_type;
+			typedef typename traits::iterator_traits<Iterator>::difference_type	difference_type;
+			typedef typename traits::iterator_traits<Iterator>::pointer  	pointer;
+			typedef typename traits::iterator_traits<Iterator>::reference	reference;
 			typedef size_t		size_type;
 
 		private:
-			typedef		node<typename Container::value_type> node;
+			typedef		typename Iterator::container_type	Container;
+			typedef		node<value_type> node;
 
 		public:
 			node	*_ptr;
