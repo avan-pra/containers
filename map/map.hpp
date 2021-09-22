@@ -279,9 +279,9 @@ namespace ft
 
 				if (is_null(er->right) && is_null(er->left))
 					erase_leaf(er);
-				if ((is_null(er->right) && !is_null(er->left)) || (!is_null(er->right) && is_null(er->left)))
+				else if ((is_null(er->right) && !is_null(er->left)) || (!is_null(er->right) && is_null(er->left)))
 					erase_single(er);
-				if (!is_null(er->right) && !is_null(er->left))
+				else if (!is_null(er->right) && !is_null(er->left))
 					erase_double(er);
 				--_size;
 				set_bound('e');
