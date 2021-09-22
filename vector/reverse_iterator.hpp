@@ -19,8 +19,10 @@ namespace ft
 			typedef typename traits::iterator_traits<Iterator>::pointer  	pointer;
 			typedef typename traits::iterator_traits<Iterator>::reference	reference;
 			typedef size_t		size_type;
+
 		private:
 			pointer		_ptr;
+
 		public:
 			reverse_iterator() : _ptr(NULL) { }
 			explicit reverse_iterator (iterator_type it) : _ptr(it) { }	
@@ -69,10 +71,10 @@ namespace ft
 			bool		operator>(const reverse_iterator &n) const { return _ptr < n._ptr; }
 			bool		operator>=(const reverse_iterator &n) const { return _ptr <= n._ptr; }
 	};
-	// template <class Iterator>
-	// reverse_iterator<Iterator> operator+(typename reverse_iterator<Iterator>::difference_type n, const reverse_iterator<Iterator>& rev_it) { return reverse_iterator(rev_it.base() - n); }
-	// template <class Iterator>
-	// typename reverse_iterator<Iterator>::difference_type operator-(const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs) { return rhs.base() - lhs.base(); }
+	template <class Iterator>
+	reverse_iterator<Iterator> operator+(typename reverse_iterator<Iterator>::difference_type n, const reverse_iterator<Iterator>& rev_it) { return reverse_iterator<Iterator>(rev_it.base() - n); } 
+	template <class Iterator>
+	typename reverse_iterator<Iterator>::difference_type operator-(const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs) { return rhs.base() - lhs.base(); }
 }
 
 #endif
