@@ -89,7 +89,7 @@ namespace ft
 			}
 
 			template <class InputIterator>
-  			map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type(), typename utils::enable_if<!utils::is_integral<InputIterator>::value >::type* = 0)
+  			map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type(), typename ft::enable_if<!ft::is_integral<InputIterator>::value >::type* = 0)
 			{
 				_comp = comp;
 				_alloc = alloc;
@@ -146,6 +146,7 @@ namespace ft
 					insert(*first);
 					++first;
 				}
+				return *this;
 			}
 
 			iterator begin()
@@ -264,7 +265,7 @@ namespace ft
 			}
 
 			template <class InputIterator>
-			void insert (InputIterator first, InputIterator last, typename utils::enable_if<!utils::is_integral<InputIterator>::value >::type* = 0)
+			void insert (InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value >::type* = 0)
 			{
 				while (first != last)
 				{
@@ -513,7 +514,6 @@ namespace ft
 				typename allocator_type::template rebind<node>::other(_alloc).deallocate(n, 1);
 				if (is_last_node)
 					top = NULL;
-				std::cout << top << std::endl;
 			}
 
 			bool is_null(node *n)
@@ -557,10 +557,9 @@ namespace ft
 
 			void set_upper_bound()
 			{
+				if (top == NULL)
+					return ;
 				upper = getRightMost(top);
-
-				//upper est null ici
-
 				upper->right = dummy[UPPER];
 				dummy[UPPER]->parent = upper;
 			}
