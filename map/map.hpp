@@ -500,7 +500,9 @@ namespace ft
 
 			void erase_leaf(node *n)
 			{
-				if (n->parent != NULL)
+				bool is_last_node = (n->parent == NULL);
+
+				if (!is_last_node)
 				{
 					n->parent->right = (n->parent->right == n) ? NULL : n->parent->right;
 					n->parent->left = (n->parent->left == n) ? NULL : n->parent->left;
@@ -509,6 +511,9 @@ namespace ft
 				_alloc.deallocate(n->data, 1);
 				typename allocator_type::template rebind<node>::other(_alloc).destroy(n);
 				typename allocator_type::template rebind<node>::other(_alloc).deallocate(n, 1);
+				if (is_last_node)
+					top = NULL;
+				std::cout << top << std::endl;
 			}
 
 			bool is_null(node *n)
@@ -545,10 +550,7 @@ namespace ft
 
 			void set_lower_bound()
 			{
-				// std::cout << "low" << std::endl;
 				lower = getLeftMost(top);
-
-				// // lower = (lower == dummy ? lower = lower->parent : lower);
 				lower->left = dummy[LOWER];
 				dummy[LOWER]->parent = lower;
 			}
@@ -557,10 +559,10 @@ namespace ft
 			{
 				upper = getRightMost(top);
 
+				//upper est null ici
+
 				upper->right = dummy[UPPER];
 				dummy[UPPER]->parent = upper;
-				// dummy->left = upper;
-				// dummy->left = upper;
 			}
 
 			private:
@@ -568,7 +570,7 @@ namespace ft
 			{
 				node *tmp = n;
 
-				while (!is_null(tmp->left))
+				while (tmp && !is_null(tmp->left))
 					tmp = tmp->left;
 				return tmp;
 			}
@@ -576,7 +578,7 @@ namespace ft
 			{
 				node *tmp = n;
 
-				while (!is_null(tmp->right))
+				while (tmp && !is_null(tmp->right))
 					tmp = tmp->right;
 				return tmp;
 			}
