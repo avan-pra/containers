@@ -165,7 +165,7 @@ namespace ft
 			{
 				return const_iterator(dummy[UPPER]);
 			}
-			
+
 			reverse_iterator rbegin()
 			{
 				return reverse_iterator(upper);
