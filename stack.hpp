@@ -30,13 +30,18 @@ namespace ft
 			void push (const value_type& val) { c.push_back(val); }
 
 			void pop() { c.pop_back(); }
-	
+
 			template <class T2, class Container2>
-			friend bool operator== (const stack<T2,Container2>& lhs, const stack<T2,Container2>& rhs) { return lhs.c == rhs.c; }
-	
+			friend bool operator== (const stack<T2,Container2>& lhs, const stack<T2,Container2>& rhs);
+
 			template <class T2, class Container2>
-			friend bool operator< (const stack<T2,Container2>& lhs, const stack<T2,Container2>& rhs) { return lhs.c < rhs.c; }
+			friend bool operator< (const stack<T2,Container2>& lhs, const stack<T2,Container2>& rhs);
 	};
+	template <class T2, class Container2>
+	bool operator== (const stack<T2,Container2>& lhs, const stack<T2,Container2>& rhs) { return lhs.c == rhs.c; }
+
+	template <class T2, class Container2>
+	bool operator< (const stack<T2,Container2>& lhs, const stack<T2,Container2>& rhs) { return lhs.c < rhs.c; }
 
 	template <class T2, class Container2>
 	bool operator!= (const stack<T2,Container2>& lhs, const stack<T2,Container2>& rhs) { return !(lhs == rhs); }
