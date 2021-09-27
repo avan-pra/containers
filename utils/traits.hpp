@@ -2,7 +2,6 @@
 # define TRAITS_HPP
 
 # include <cstddef>
-# include <iterator>
 
 namespace traits
 {

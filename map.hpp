@@ -1,12 +1,7 @@
 #ifndef MAP_HPP
 # define MAP_HPP
 
-# include <cstdlib>
-# include <cstddef>
-# include <memory>
 # include <climits>
-# include <sstream>
-# include <iostream>
 # include "utils/utils.hpp"
 # include "utils/iterator.hpp"
 # include "utils/reverse_iterator.hpp"
@@ -81,7 +76,7 @@ namespace ft
 				_alloc = alloc;
 				top = NULL;
 				dummy[UPPER] =	typename allocator_type::template rebind<node>::other(_alloc).allocate(1, (node *)0);
-								typename allocator_type::template rebind<node>::other(_alloc).construct(dummy[UPPER]);
+								typename allocator_type::template rebind<node>::other(_alloc).construct(dummy[UPPER], node());
 				dummy[LOWER] =	dummy[UPPER];
 				lower = dummy[UPPER];
 				upper = dummy[UPPER];
@@ -95,7 +90,7 @@ namespace ft
 				_alloc = alloc;
 				top = NULL;
 				dummy[UPPER] =	typename allocator_type::template rebind<node>::other(_alloc).allocate(1, (node *)0);
-								typename allocator_type::template rebind<node>::other(_alloc).construct(dummy[UPPER]);
+								typename allocator_type::template rebind<node>::other(_alloc).construct(dummy[UPPER], node());
 				dummy[LOWER] =	dummy[UPPER];
 				lower = dummy[UPPER];
 				upper = dummy[UPPER];
@@ -113,7 +108,7 @@ namespace ft
 				_alloc = x._alloc;
 				top = NULL;
 				dummy[UPPER] =	typename allocator_type::template rebind<node>::other(_alloc).allocate(1, (node *)0);
-								typename allocator_type::template rebind<node>::other(_alloc).construct(dummy[UPPER]);
+								typename allocator_type::template rebind<node>::other(_alloc).construct(dummy[UPPER], node());
 				dummy[LOWER] =	dummy[UPPER];
 				lower = dummy[UPPER];
 				upper = dummy[UPPER];
@@ -229,7 +224,8 @@ namespace ft
 								_alloc.construct(tmp, val);
 
 								traversal->left = typename allocator_type::template rebind<node>::other(_alloc).allocate(1, (node *)0);
-								typename allocator_type::template rebind<node>::other(_alloc).construct(traversal->left, tmp, traversal);
+								typename allocator_type::template rebind<node>::other(_alloc).construct(traversal->left, tmp);
+								traversal->left->parent = traversal;
 								set_bound('i');
 								++_size;
 								return ft::pair<iterator, bool>(iterator(traversal->left), true);
@@ -245,7 +241,8 @@ namespace ft
 								_alloc.construct(tmp, val);
 
 								traversal->right = typename allocator_type::template rebind<node>::other(_alloc).allocate(1, (node *)0);
-								typename allocator_type::template rebind<node>::other(_alloc).construct(traversal->right, tmp, traversal);
+								typename allocator_type::template rebind<node>::other(_alloc).construct(traversal->right, tmp);
+								traversal->right->parent = traversal;
 								set_bound('i');
 								++_size;
 								return ft::pair<iterator, bool>(iterator(traversal->right), true);
@@ -261,6 +258,7 @@ namespace ft
 
 			iterator insert(iterator position, const value_type& val) //mdr nn sah
 			{
+				(void)position;
 				return insert(val).first;
 			}
 
@@ -542,7 +540,7 @@ namespace ft
 				if (c == 'i' && _size == 0)
 				{
 					dummy[LOWER] = typename allocator_type::template rebind<node>::other(_alloc).allocate(1, (node *)0);
-					typename allocator_type::template rebind<node>::other(_alloc).construct(dummy[LOWER]);
+					typename allocator_type::template rebind<node>::other(_alloc).construct(dummy[LOWER], node());
 					lower = top;
 					upper = top;
 					set_lower_bound();

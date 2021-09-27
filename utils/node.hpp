@@ -1,8 +1,6 @@
 #ifndef BTREE_HPP
 # define BTREE_HPP
 
-#include <cstddef>
-
 template <class T>
 struct node
 {

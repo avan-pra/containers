@@ -34,7 +34,6 @@ int main ()
 	//INSERT
 	std::cout << "Map Test" << std::endl;
 	std::cout << "Test Insert" << std::endl;
-	char c = 'a';
 
 	init_map(map);
 	std::cout << "map.size() = " << map.size() << " |TOP = " << map.rbegin()->first << " |LOWER = " << map.begin()->first << std::endl;
