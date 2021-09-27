@@ -1,5 +1,5 @@
 #include <iostream>
-#if 1 //CREATE A REAL STL EXAMPLE
+#if 0 //CREATE A REAL STL EXAMPLE
 	#include <map>
 	#include <stack>
 	#include <vector>
@@ -9,6 +9,19 @@
 	#include "stack.hpp"
 	#include "vector.hpp"
 #endif
+
+void init_map(ft::map<char, int> &m)
+{
+	m['f'] = 1;
+	m['b'] = 2;
+	m['a'] = 3;
+	m['d'] = 4;
+	m['c'] = 5;
+	m['e'] = 6;
+	m['g'] = 7;
+	m['i'] = 8;
+	m['h'] = 9;
+}
 
 int main () 
 {
@@ -23,15 +36,7 @@ int main ()
 	std::cout << "Test Insert" << std::endl;
 	char c = 'a';
 
-	map['f'] = 1;
-	map['b'] = 2;
-	map['a'] = 4;
-	map['d'] = 5;
-	map['c'] = 7;
-	map['e'] = 8;
-	map['g'] = 9;
-	map['i'] = 10;
-	map['h'] = 11;
+	init_map(map);
 	std::cout << "map.size() = " << map.size() << " |TOP = " << map.rbegin()->first << " |LOWER = " << map.begin()->first << std::endl;
 	std::cout << "Print data in map via iterator:" << std::endl;
 	for (ft::map<char, int>::iterator it = map.begin(); it != map.end(); it++)
@@ -127,6 +132,124 @@ int main ()
 		std::cout << "map size: " << map.size() << " empty ? " << map.empty() << std::endl;
 		map.clear();
 		std::cout << "map size: " << map.size() << " empty ? " << map.empty()  << std::endl;
+	}
+	std::cout << std::endl;
+
+	{
+		std::cout << "Testing swap & clear" << std::endl;
+		init_map(map);
+		ft::map<char, int> map2;
+		std::cout << "Map1 size: " << map.size() << " Map2 size: " << map2.size() << std::endl;
+		map.swap(map2);
+		std::cout << "After swap:\n" << "Map1 size: " << map.size() << " Map2 size: " << map2.size() << std::endl << std::endl;
+
+		init_map(map);
+		map.erase('a');
+		map.erase('c');
+		map.erase('h');
+		std::cout << "Map1 size: " << map.size() << " Map2 size: " << map2.size() << std::endl;
+		map.swap(map2);
+		std::cout << "After swap:\n" << "Map1 size: " << map.size() << " Map2 size: " << map2.size() << std::endl << std::endl;
+
+		map.clear();
+		map2.erase(map2.begin(), map2.end());
+		std::cout << "After clear:\n" << "Map1 size: " << map.size() << " Map2 size: " << map2.size() << std::endl;
+	}
+
+	{
+		init_map(map);
+		std::cout << "Testing key_comp & value_comp" << std::endl;
+
+		std::cout << "Different key: " <<  map.key_comp()('a', 'b') << ":" << map.key_comp()('b', 'a') << std::endl;
+		std::cout << "Same key: " << map.key_comp()('a', 'a') << std::endl;
+
+		ft::pair<char,int> highest = *map.rbegin();          // last element
+		ft::map<char,int>::iterator it = map.begin();
+		do {
+			std::cout << it->first << " => " << it->second << '\n';
+		} while ( map.value_comp()(*it++, highest) );
+	}
+	std::cout << std::endl;
+
+	{
+		std::cout << "Testing find()" << std::endl;
+
+		ft::map<char, int>::iterator it = map.find('a');
+		ft::map<char, int>::const_iterator itc = map.find('a');
+		std::cout << "a " << it->second << ":" << itc->second << std::endl;
+
+		it = map.find('c');
+		itc = map.find('c');
+		std::cout << "c " << it->second << ":" << itc->second << std::endl;
+
+		it = map.find('o');
+		itc = map.find('o');
+		std::cout << "o " << (it == map.end()) << ":" << (itc == map.end()) << std::endl;
+	}
+
+	{
+		std::cout << "Testing count()" << std::endl;
+
+		ft::map<char, int>::size_type it = map.count('a');
+		ft::map<char, int>::size_type itc = map.count('a');
+		std::cout << "a " << it << ":" << itc << std::endl;
+
+		it = map.count('c');
+		itc = map.count('c');
+		std::cout << "c " << it << ":" << itc << std::endl;
+
+		it = map.count('o');
+		itc = map.count('o');
+		std::cout << "o " << it << ":" << itc << std::endl;
+	}
+
+	{
+		std::cout << "Testing upper&lower_bound()" << std::endl;
+		ft::map<char, int>::iterator itlow, itup;
+
+		map.clear();
+		map['a']=20;
+		map['b']=40;
+		map['c']=60;
+		map['d']=80;
+		map['e']=100;
+
+		itlow = map.lower_bound('b');
+		itup = map.upper_bound('d');
+
+		map.erase(itlow,itup);
+		for (ft::map<char,int>::iterator it = map.begin(); it != map.end(); ++it)
+			std::cout << it->first << " => " << it->second << '\n';
+
+		map.clear();
+	}
+
+	{
+		std::cout << "Testing equal_range()" << std::endl;
+
+		map.clear();
+		map['a']=10;
+		map['b']=20;
+		map['c']=30;
+
+		ft::pair<ft::map<char,int>::iterator,ft::map<char,int>::iterator> ret;
+		ret = map.equal_range('b');
+
+		std::cout << "lower bound points to: ";
+		std::cout << ret.first->first << " => " << ret.first->second << '\n';
+
+		std::cout << "upper bound points to: ";
+		std::cout << ret.second->first << " => " << ret.second->second << '\n';
+	}
+
+	{
+		ft::pair<const char, int> *p;
+
+		p = map.get_allocator().allocate(12);
+
+		std::cout << "The allocated array has a size of " << sizeof(ft::map<char,int>::value_type)*5 << " bytes.\n";
+
+		map.get_allocator().deallocate(p,5);
 	}
 	return 0;
 }
