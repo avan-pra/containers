@@ -214,6 +214,11 @@ namespace ft
 				else
 				{
 					node *traversal = top;
+
+					if (_comp(val.first, lower->data->first))
+						traversal = lower;
+					else if (_comp(upper->data->first, val.first))
+						traversal = upper;
 					while (1)
 					{
 						if (_comp(val.first, traversal->data->first))
@@ -226,7 +231,12 @@ namespace ft
 								traversal->left = typename allocator_type::template rebind<node>::other(_alloc).allocate(1, (node *)0);
 								typename allocator_type::template rebind<node>::other(_alloc).construct(traversal->left, tmp);
 								traversal->left->parent = traversal;
-								set_bound('i');
+								if (lower == traversal)
+								{
+									lower = traversal->left;
+									dummy[LOWER]->parent = lower;
+									lower->left = dummy[LOWER];
+								}
 								++_size;
 								return ft::pair<iterator, bool>(iterator(traversal->left), true);
 							}
@@ -243,7 +253,12 @@ namespace ft
 								traversal->right = typename allocator_type::template rebind<node>::other(_alloc).allocate(1, (node *)0);
 								typename allocator_type::template rebind<node>::other(_alloc).construct(traversal->right, tmp);
 								traversal->right->parent = traversal;
-								set_bound('i');
+								if (upper == traversal)
+								{
+									upper = traversal->right;
+									dummy[UPPER]->parent = upper;
+									upper->right = dummy[UPPER];
+								}
 								++_size;
 								return ft::pair<iterator, bool>(iterator(traversal->right), true);
 							}
