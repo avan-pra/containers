@@ -7,14 +7,14 @@
 	#include <vector>
 	namespace ft = std;
 #else
-	#include <map.hpp>
-	#include <stack.hpp>
-	#include <vector.hpp>
+	#include "map.hpp"
+	#include "stack.hpp"
+	#include "vector.hpp"
 #endif
 
 #include <stdlib.h>
 
-#define MAX_RAM 4294967296
+#define MAX_RAM 100000
 #define BUFFER_SIZE 4096
 struct Buffer
 {
