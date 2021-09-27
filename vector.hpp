@@ -144,7 +144,7 @@ namespace ft
 					throw std::out_of_range(utils::ft_to_string(n));
 				return _ptr[n];
 			}
-			
+
 			const_reference at(size_type n) const
 			{
 				if (n < 0 || n >= _size_alloc)
