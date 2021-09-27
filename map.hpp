@@ -483,10 +483,16 @@ namespace ft
 
 				if (is_null(n->left))
 					attach = n->right;
-				else if (is_null(n->right))
+				else
 					attach = n->left;
 				if (n == top)
+				{
 					top = attach;
+					if (attach == n->right)
+						lower = top;
+					else
+						upper = top;
+				}
 				else
 				{
 					n->parent->right = (n->parent->right == n) ? attach : n->parent->right;
@@ -533,6 +539,8 @@ namespace ft
 				{
 					dummy[LOWER] = typename allocator_type::template rebind<node>::other(_alloc).allocate(1, (node *)0);
 					typename allocator_type::template rebind<node>::other(_alloc).construct(dummy[LOWER]);
+					lower = top;
+					upper = top;
 					set_lower_bound();
 					set_upper_bound();
 				}
