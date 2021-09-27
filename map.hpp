@@ -329,7 +329,7 @@ namespace ft
 
 			value_compare value_comp() const
 			{
-				return value_compare();
+				return value_compare(_comp);
 			}
 
 			iterator find(const key_type& k)
@@ -530,7 +530,7 @@ namespace ft
 					top = NULL;
 			}
 
-			bool is_null(node *n)
+			bool is_null(node *n) const
 			{
 				if (n == NULL || n == dummy[LOWER] || n == dummy[UPPER])
 					return true;
@@ -580,8 +580,7 @@ namespace ft
 				dummy[UPPER]->parent = upper;
 			}
 
-			private:
-			node *getLeftMost(node *n)
+			node *getLeftMost(node *n) const
 			{
 				node *tmp = n;
 
@@ -589,7 +588,7 @@ namespace ft
 					tmp = tmp->left;
 				return tmp;
 			}
-			node *getRightMost(node *n)
+			node *getRightMost(node *n) const
 			{
 				node *tmp = n;
 
