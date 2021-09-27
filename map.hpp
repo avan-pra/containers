@@ -495,6 +495,10 @@ namespace ft
 				}
 				else
 				{
+					if (lower == n)
+						lower = n->parent;
+					if (upper == n)
+						upper = n->parent;
 					n->parent->right = (n->parent->right == n) ? attach : n->parent->right;
 					n->parent->left = (n->parent->left == n) ? attach : n->parent->left;
 				}
