@@ -505,6 +505,10 @@ namespace ft
 
 				if (!is_last_node)
 				{
+					if (lower == n)
+						lower = n->parent;
+					if (upper == n)
+						upper = n->parent;
 					n->parent->right = (n->parent->right == n) ? NULL : n->parent->right;
 					n->parent->left = (n->parent->left == n) ? NULL : n->parent->left;
 				}
@@ -550,7 +554,7 @@ namespace ft
 
 			void set_lower_bound()
 			{
-				lower = getLeftMost(top);
+				lower = getLeftMost(lower);
 				lower->left = dummy[LOWER];
 				dummy[LOWER]->parent = lower;
 			}
@@ -559,7 +563,7 @@ namespace ft
 			{
 				if (top == NULL)
 					return ;
-				upper = getRightMost(top);
+				upper = getRightMost(upper);
 				upper->right = dummy[UPPER];
 				dummy[UPPER]->parent = upper;
 			}
