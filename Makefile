@@ -25,17 +25,17 @@ all: vector map stack
 vector : $(NAMEV)
 
 $(NAMEV) :	$(OBJV)
-			$(CXX) $(CFLAGS) -o $(NAMEV) $(OBJV)
+			$(CXX) $(CPPFLAGS) -o $(NAMEV) $(OBJV)
 
 map : $(NAMEM)
 
 $(NAMEM) :	$(OBJM)
-			$(CXX) $(CFLAGS) -o $(NAMEM) $(OBJM)
+			$(CXX) $(CPPFLAGS) -o $(NAMEM) $(OBJM)
 
 stack : $(NAMES)
 
 $(NAMES) :	$(OBJS)
-			$(CXX) $(CFLAGS) -o $(NAMES) $(OBJS)
+			$(CXX) $(CPPFLAGS) -o $(NAMES) $(OBJS)
 
 clean : 
 		rm $(OBJV) $(OBJM) $(OBJS)
