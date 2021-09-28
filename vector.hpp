@@ -2,6 +2,7 @@
 # define VECTOR_HPP
 
 # include <cstdlib>
+# include <climits>
 # include "utils/utils.hpp"
 # include "utils/reverse_iterator.hpp"
 

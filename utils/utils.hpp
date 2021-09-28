@@ -1,6 +1,8 @@
 #ifndef UTILS_HPP
 # define UTILS_HPP
 
+#include <iostream>
+
 namespace utils
 {
 	template <typename T>
@@ -69,6 +71,14 @@ namespace ft
 		}
 		return (first2!=last2);
 	}
+
+	template <class InputIterator1, class InputIterator2>
+	bool equal (InputIterator1 first1, InputIterator1 last1,
+              InputIterator2 first2);
+
+	template <class InputIterator1, class InputIterator2, class BinaryPredicate>
+	bool equal (InputIterator1 first1, InputIterator1 last1,
+              InputIterator2 first2, BinaryPredicate pred);
 
 	//is_integral implementation
 	template <bool is_integral, typename T>
