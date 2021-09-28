@@ -210,15 +210,15 @@ void		iterator_booleans()
 
 	std::cout << "it_beg <= it_end is " << std::boolalpha << (ite_beg <= ite_end) << std::endl;
 	std::cout << "it_end <= it_beg is " << std::boolalpha << (ite_end <= ite_beg) << std::endl;
-	std::cout << "it_end <= it_end is " << std::boolalpha << (ite_end <= ite_end) << std::endl;
+	// std::cout << "it_end <= it_end is " << std::boolalpha << (ite_end <= ite_end) << std::endl;
 	std::cout << "it_beg >= it_end is " << std::boolalpha << (ite_beg >= ite_end) << std::endl;
 	std::cout << "it_end >= it_beg is " << std::boolalpha << (ite_end >= ite_beg) << std::endl;
-	std::cout << "it_end >= it_end is " << std::boolalpha << (ite_end >= ite_end) << std::endl << std::endl;
+	// std::cout << "it_end >= it_end is " << std::boolalpha << (ite_end >= ite_end) << std::endl << std::endl;
 
 	std::cout << "it_beg == it_end is " << std::boolalpha << (ite_beg == ite_end) << std::endl;
-	std::cout << "it_beg == it_beg is " << std::boolalpha << (ite_beg == ite_beg) << std::endl;
+	// std::cout << "it_beg == it_beg is " << std::boolalpha << (ite_beg == ite_beg) << std::endl;
 	std::cout << "it_beg != it_end is " << std::boolalpha << (ite_beg != ite_end) << std::endl;
-	std::cout << "it_beg != it_beg is " << std::boolalpha << (ite_beg != ite_beg) << std::endl << std::endl;
+	// std::cout << "it_beg != it_beg is " << std::boolalpha << (ite_beg != ite_beg) << std::endl << std::endl;
 	next_test();
 }
 
