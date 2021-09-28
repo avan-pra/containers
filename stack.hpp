@@ -5,7 +5,7 @@
 
 namespace ft
 {
-	template <class T, class Container = vector<T> >
+	template <class T, class Container = ft::vector<T> >
 	class stack
 	{
 		public:
@@ -50,10 +50,10 @@ namespace ft
 	bool operator<= (const stack<T,Container>& lhs, const stack<T,Container>& rhs) { return (lhs == rhs ? true : (lhs < rhs)); }
 
 	template <class T, class Container>
-	bool operator>  (const stack<T,Container>& lhs, const stack<T,Container>& rhs) { return !(lhs < rhs); }
+	bool operator>  (const stack<T,Container>& lhs, const stack<T,Container>& rhs) { return (rhs < lhs); }
 
 	template <class T, class Container>
-	bool operator>= (const stack<T,Container>& lhs, const stack<T,Container>& rhs) { return (lhs == rhs ? true : !(lhs < rhs)); }
+	bool operator>= (const stack<T,Container>& lhs, const stack<T,Container>& rhs) { return (lhs == rhs ? true : (rhs < lhs)); }
 }
 
 #endif
