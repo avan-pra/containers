@@ -154,6 +154,7 @@ int main ()
 		map2.erase(map2.begin(), map2.end());
 		std::cout << "After clear:\n" << "Map1 size: " << map.size() << " Map2 size: " << map2.size() << std::endl;
 	}
+	std::cout << std::endl;
 
 	{
 		init_map(map);
