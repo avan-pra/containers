@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   tester_vector.cpp                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jereligi <jereligi@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/03 16:12:32 by jereligi          #+#    #+#             */
-/*   Updated: 2021/03/08 15:23:13 by jereligi         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "iterator_vector.cpp"
 #include "reverse_iterator.cpp"
 #include "capacity_vector.cpp"
