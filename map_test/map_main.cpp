@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdlib.h> //srand
 #if 0 //CREATE A REAL STL EXAMPLE
 	#include <map>
 	namespace ft = std;
