@@ -1,5 +1,5 @@
-#ifndef BTREE_HPP
-# define BTREE_HPP
+#ifndef NODE_HPP
+# define NODE_HPP
 
 template <class T>
 struct node

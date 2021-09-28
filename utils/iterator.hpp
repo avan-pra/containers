@@ -1,5 +1,5 @@
-#ifndef MAP_ITERATOR_HPP
-# define MAP_ITERATOR_HPP
+#ifndef ITERATOR_HPP
+# define ITERATOR_HPP
 
 # include "../utils/traits.hpp"
 # include "node.hpp"
