@@ -11,13 +11,6 @@
 # define LOWER 0
 # define UPPER 1
 
-class test1212
-{
-	public:
-		test1212() { std::cout << "hola" << std::endl; }
-		~test1212() { std::cout << "ciao" << std::endl; }
-};
-
 namespace ft
 {
 	template <
@@ -327,7 +320,7 @@ namespace ft
 
 			void swap (map& x)
 			{
-				utils::swap(*this, x);
+				_swap(*this, x);
 			}
 
 			void clear() //not done, need to do this for every node in the map
@@ -483,7 +476,7 @@ namespace ft
 				node *traversal = n->left;
 
 				traversal = getRightMost(traversal);
-				utils::swap(traversal->data, n->data);
+				_swap(traversal->data, n->data);
 				if (is_null(traversal->right) && is_null(traversal->left))
 					erase_leaf(traversal);
 				else if ((is_null(traversal->right) && !is_null(traversal->left)) || (!is_null(traversal->right) && is_null(traversal->left)))
@@ -608,6 +601,13 @@ namespace ft
 				while (tmp && !is_null(tmp->right))
 					tmp = tmp->right;
 				return tmp;
+			}
+			template <class E>
+			void _swap(E &a, E &b)
+			{
+				E c = a;
+				a = b;
+				b = c;
 			}
 	};
 }

@@ -86,7 +86,7 @@ namespace ft
 
 			size_type max_size() const
 			{
-				return ULONG_MAX / sizeof(value_type);
+				return (ULONG_MAX / sizeof(value_type));
 			}
 
 			void resize (size_type n, value_type val = value_type())
@@ -137,14 +137,14 @@ namespace ft
 			reference at(size_type n)
 			{
 				if (n < 0 || n >= _size_alloc)
-					throw std::out_of_range(utils::ft_to_string(n));
+					throw std::out_of_range(ft_to_string(n));
 				return _ptr[n];
 			}
 
 			const_reference at(size_type n) const
 			{
 				if (n < 0 || n >= _size_alloc)
-					throw std::out_of_range(utils::ft_to_string(n));
+					throw std::out_of_range(ft_to_string(n));
 				return _ptr[n];
 			}
 
@@ -233,7 +233,7 @@ namespace ft
 
 					position = begin() + offset;
 					for (iterator it = end() + n; it != position + n - 1; --it)
-						utils::swap(*it, *(it - n));
+						_swap(*it, *(it - n));
 					while (n-- != 0)
 					{
 						_alloc.construct(position, L);
@@ -255,7 +255,7 @@ namespace ft
 
 					position = begin() + offset;
 					for (iterator it = end() + n; it != position + n - 1; --it)
-						utils::swap(*it, *(it - n));
+						_swap(*it, *(it - n));
 					while (n-- != 0)
 					{
 						_alloc.construct(position, *first);
@@ -272,7 +272,7 @@ namespace ft
 
 				_alloc.destroy(position);
 				for (; position != end() - 1; ++position)
-					utils::swap(*position, *(position + 1));
+					_swap(*position, *(position + 1));
 				--_size;
 				return it;
 			}
@@ -286,9 +286,9 @@ namespace ft
 
 			void swap(vector& x)
 			{
-				utils::swap(_ptr, x._ptr);
-				utils::swap(_size, x._size);
-				utils::swap(_size_alloc, x._size_alloc);
+				_swap(_ptr, x._ptr);
+				_swap(_size, x._size);
+				_swap(_size_alloc, x._size_alloc);
 			}
 
 			void clear()
@@ -301,6 +301,37 @@ namespace ft
 			allocator_type get_allocator() const
 			{
 				return _alloc;
+			}
+
+			private:
+			template <typename D>
+			std::string		ft_to_string(D value)
+			{
+				std::string output;
+				std::string sign;
+				char		nb[2];
+
+				if (value < 0)
+				{
+					sign + "-";
+					value = -value;
+				}
+				nb[1] = '\0';
+				while (output.empty() || (value > 0))
+				{
+					nb[0] = value % 10 + '0';
+					output.insert(0, std::string(nb));
+					value /= 10;
+				}
+
+				return (sign + output);
+			}
+			template <class E>
+			void _swap(E &a, E &b)
+			{
+				E c = a;
+				a = b;
+				b = c;
 			}
 	};
 
@@ -328,53 +359,32 @@ namespace ft
 	template <class T, class Alloc>
 	bool operator<(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 	{
-		if (lhs.size() < rhs.size())
-			return true;
-		if (lhs.size() > rhs.size())
-			return false;
-		for (size_t i = 0; i < lhs.size(); ++i)
-		{
-			if (lhs[i] > rhs[i])
-				return false;
-		}
-		return true;
+		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 
 	template <class T, class Alloc>
 	bool operator<=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 	{
-		if (lhs.size() < rhs.size())
-			return true;
-		if (lhs.size() > rhs.size())
-			return false;
-		for (size_t i = 0; i < lhs.size(); ++i)
-		{
-			if (lhs[i] >= rhs[i])
-				return false;
-		}
-		return true;
+		return (!(rhs < lhs));
 	}
 
 	template <class T, class Alloc>
 	bool operator>(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 	{
-		if (lhs < rhs)
-			return false;
-		return true;
+		std::cout << ":" << (lhs == rhs) << std::endl;
+		return (rhs < lhs);
 	}
 
 	template <class T, class Alloc>
 	bool operator>=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 	{
-		if (lhs <= rhs)
-			return false;
-		return true;
+		return (!(lhs < rhs));
 	}
 
 	template <class T, class Alloc>
 	void swap(vector<T,Alloc>& x, vector<T,Alloc>& y)
 	{
-		utils::swap(x, y);
+		_swap(x, y);
 	}
 }
 
