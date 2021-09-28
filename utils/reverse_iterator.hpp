@@ -32,7 +32,7 @@ namespace ft
 
 			iterator_type base() const{ return _ptr; }
 
-			const reference	operator*() const { return *_ptr; }
+			reference	operator*() const { return *_ptr; }
 
 			reverse_iterator	operator=(const reverse_iterator &it) { _ptr = it._ptr; return *this; }
 

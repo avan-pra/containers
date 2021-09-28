@@ -43,7 +43,7 @@ namespace ft
 
 			bool		operator!=(const iterator &it) const { return !(_ptr == it._ptr); }
 
-			const reference operator*() const
+			reference operator*() const
 			{
 				return *(_ptr->data);
 			}
