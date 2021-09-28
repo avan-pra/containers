@@ -23,9 +23,9 @@ namespace ft
 
 			size_type size() const { return c.size(); }
 
-			value_type& top() { return c[c.end() - 1]; }
+			value_type& top() { return *(c.end() - 1); }
 			
-			const value_type& top() const { return c[c.end() - 1];}
+			const value_type& top() const { return *(c.end() - 1); }
 
 			void push (const value_type& val) { c.push_back(val); }
 
