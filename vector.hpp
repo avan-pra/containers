@@ -232,7 +232,7 @@ namespace ft
 					_size + n > _size_alloc ? reserve((_size_alloc * 2 < _size + n ? _size + n : _size_alloc * 2)) : (void)0 ;
 
 					position = begin() + offset;
-					for (iterator it = end() + n; it != position + n - 1; --it)
+					for (iterator it = end() + n - 1; it != position + n - 1; --it)
 						_swap(*it, *(it - n));
 					while (n-- != 0)
 					{
