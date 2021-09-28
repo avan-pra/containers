@@ -36,3 +36,11 @@ stack : $(NAMES)
 
 $(NAMES) :	$(OBJS)
 			$(CXX) $(CFLAGS) -o $(NAMES) $(OBJS)
+
+clean : 
+		rm $(OBJV) $(OBJM) $(OBJS)
+
+fclean : clean
+		rm $(NAMEV) $(NAMEM) $(NAMES)
+
+re : fclean all
