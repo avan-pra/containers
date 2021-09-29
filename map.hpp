@@ -388,7 +388,7 @@ namespace ft
 			iterator lower_bound(const key_type& k)
 			{
 				node *traversal = top;
-				node *result;
+				node *result = end()._ptr;
 
 				while (!is_null(traversal))
 				{
@@ -405,7 +405,7 @@ namespace ft
 			const_iterator lower_bound (const key_type& k) const
 			{
 				node *traversal = top;
-				node *result;
+				node *result = end()._ptr;
 
 				while (!is_null(traversal))
 				{
@@ -423,7 +423,7 @@ namespace ft
 			iterator upper_bound(const key_type& k)
 			{
 				node *traversal = top;
-				node *result;
+				node *result = end()._ptr;
 
 				while (!is_null(traversal))
 				{
@@ -440,7 +440,7 @@ namespace ft
 			const_iterator upper_bound (const key_type& k) const
 			{
 				node *traversal = top;
-				node *result;
+				node *result = end()._ptr;
 
 				while (!is_null(traversal))
 				{
